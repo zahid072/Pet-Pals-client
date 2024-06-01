@@ -7,8 +7,10 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import useAuth from "../../../Hooks/useAuth";
 
 const Nav = () => {
+  const { user, logOut } = useAuth();
   const [openNav, setOpenNav] = React.useState(false);
   const { pathname } = useLocation();
 
@@ -18,6 +20,11 @@ const Nav = () => {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+
+
+  const handleSignOut = () => {
+    logOut()
+  };
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -119,12 +126,18 @@ const Nav = () => {
             <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-x-1">
-                <Link to={"/signIn"}>
-                  {" "}
-                  <button className="hidden bg-[#ADD8E6] lg:inline-block px-3 py-2 font-semibold rounded">
-                    <span>Sign in</span>
+                {!user ? (
+                  <Link to={"/signIn"}>
+                    {" "}
+                    <button className="hidden bg-[#ADD8E6] lg:inline-block px-3 py-2 font-semibold rounded">
+                      <span>Sign in</span>
+                    </button>
+                  </Link>
+                ) : (
+                  <button onClick={handleSignOut} className="hidden bg-[#ADD8E6] lg:inline-block px-3 py-2 font-semibold rounded">
+                    <span>Sign Out</span>
                   </button>
-                </Link>
+                )}
               </div>
               <IconButton
                 variant="text"
