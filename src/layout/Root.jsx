@@ -1,23 +1,22 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Nav from "../pages/shared/navbar/Nav";
 
 const Root = () => {
   return (
     <div>
-        {/* navbar */}
+      {/* navbar */}
       <div>
-
+        <Nav />
       </div>
       {/* outlet */}
       <div>
-        <Outlet/>
+        <Outlet />
       </div>
       {/* footer */}
-      <div>
-
-      </div>
+      <div></div>
     </div>
-  )
-}
+  );
+};
 
-export default Root
+export default Root;
