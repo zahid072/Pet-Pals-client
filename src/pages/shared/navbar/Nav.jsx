@@ -5,12 +5,12 @@ import {
   Typography,
   Button,
   IconButton,
-  Card,
 } from "@material-tailwind/react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const Nav = () => {
   const [openNav, setOpenNav] = React.useState(false);
+  const { pathname } = useLocation();
 
   React.useEffect(() => {
     window.addEventListener(
@@ -29,31 +29,59 @@ const Nav = () => {
       >
         <NavLink
           to={"/"}
-          className={({ isActive }) =>
-            isActive
-              ? "md:flex items-center pb-1 px-1 md:w-full w-14 border-b-4 border-blue-gray-800"
-              : "flex items-center pb-1 px-2"
-          }
+          className="flex items-center justify-center py-3 px-2  relative text-center"
         >
           Home
+          <div
+            className={
+              pathname === "/"
+                ? " absolute  w-full h-full border-y-4 border-black rounded-lg"
+                : ""
+            }
+          ></div>
         </NavLink>
       </Typography>
-      {/* <Typography
+      <Typography
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-normal"
+        className="p-1 font-normal  "
       >
         <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center pb-1 px-1 border-b-4 border-blue-gray-800"
-              : "flex items-center pb-1 px-2"
-          }
+          to={"/petListing"}
+          className="flex items-center justify-center py-3 px-2 relative text-center"
         >
-          Account
+          Pet Listing
+          <div
+            className={
+              pathname === "/petListing"
+                ? " absolute  w-full h-full border-y-4 border-black rounded-lg"
+                : ""
+            }
+          ></div>
         </NavLink>
       </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal  "
+      >
+        <NavLink
+          to={"/donationCampaign"}
+          className="flex items-center justify-center py-3 px-2 relative text-center"
+        >
+          Donation Campaigns
+          <div
+            className={
+              pathname === "/donationCampaign"
+                ? " absolute  w-full h-full border-y-4 border-black rounded-lg"
+                : ""
+            }
+          ></div>
+        </NavLink>
+      </Typography>
+
       <Typography
         as="li"
         variant="small"
@@ -61,30 +89,17 @@ const Nav = () => {
         className="p-1 font-normal"
       >
         <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center pb-1 px-1 border-b-4 border-blue-gray-800"
-              : "flex items-center pb-1 px-2"
-          }
-        >
-          Blocks
-        </NavLink>
-      </Typography> */}
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <NavLink
-           to={"/about"}
-          className={({ isActive }) =>
-            isActive
-              ? "md:flex items-center pb-1 px-1 border-b-4 border-blue-gray-800"
-              : "flex items-center pb-1 px-2"
-          }
+          to={"/about"}
+          className="flex items-center justify-center py-3 px-2  relative text-center"
         >
           About Us
+          <div
+            className={
+              pathname === "/about"
+                ? " absolute  w-full h-full border-y-4 border-black rounded-lg"
+                : ""
+            }
+          ></div>
         </NavLink>
       </Typography>
     </ul>
@@ -99,18 +114,17 @@ const Nav = () => {
               href="#"
               className="mr-4 cursor-pointer py-1.5 font-semibold text-2xl"
             >
-             <Link to={"/"}> Pet Pals</Link>
+              <Link to={"/"}> Pet Pals</Link>
             </Typography>
             <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-x-1">
-                <Button
-                  variant="gradient"
-                  size="sm"
-                  className="hidden lg:inline-block"
-                >
-                  <span>Sign in</span>
-                </Button>
+                <Link to={"/signIn"}>
+                  {" "}
+                  <button className="hidden bg-[#ADD8E6] lg:inline-block px-3 py-2 font-semibold rounded">
+                    <span>Sign in</span>
+                  </button>
+                </Link>
               </div>
               <IconButton
                 variant="text"
