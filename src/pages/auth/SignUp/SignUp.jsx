@@ -6,14 +6,16 @@ import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
+import axios from "axios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const SignUp = () => {
-  const [error, setError] = useState("");
+  const axiosSecure = useAxiosSecure()
+  const [error, setError] = useState({});
   const [tempPhoto, setTempPhoto] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [submitLoader, setSubmitLoader] = useState(false);
-  const { signUpUsers } = useAuth();
-  const {} = useAuth();
+  const { signUpUsers, updateUserProfile } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,6 +42,7 @@ const SignUp = () => {
     const formData = new FormData();
     formData.append("image", photo);
     setSubmitLoader(true);
+    setError({})
     const Res = await fetch(
       "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
       {
@@ -48,17 +51,27 @@ const SignUp = () => {
       }
     );
     const imgbbData = await Res.json();
-    console.log(imgbbData.data.url);
-    if (imgbbData.data.url) {
-      
-      setTempPhoto("");
-      reset();
+    if (imgbbData.data?.url) {
+      signUpUsers(email, password)
+        .then((res) => {
+          updateUserProfile(name, imgbbData.data?.url)
+          setSubmitLoader(false);
+          setTempPhoto("");
+          reset();
+          toast.success("Account successfully created.");
+        })
+        .catch((err) => {
+          if (err.message === "Firebase: Error (auth/email-already-in-use).") {
+            setSubmitLoader(false);
+            setError({ email: "Email already in use." });
+          } else {
+            setSubmitLoader(false);
+            console.log(err.message);
+          }
+        });
+      const newUser = { name, email, role: "user" };
+      axiosSecure.post("/users", newUser).then((res) => {});
     }
-    setError("");
-    signUpUsers(email, password).then((res) => {
-      setSubmitLoader(false);
-      console.log(res.user);
-    });
   };
 
   return (
@@ -110,6 +123,7 @@ const SignUp = () => {
                   {...register("photo")}
                   onChange={handlePhoto}
                   className="px-4 py-3 rounded-lg border w-full mt-2"
+                  required
                 />
                 <img className="h-14" src={tempPhoto} alt="" />
               </div>
@@ -131,8 +145,11 @@ const SignUp = () => {
               />
               <>
                 {errors.email && (
-                  <p className="text-red-500">{errors.email.message}</p>
+                  <p className="text-red-500 mt-2">{errors.email.message}</p>
                 )}
+                {
+                  error?.email && <p className="text-red-500 mt-2">{error.email}</p>
+                }
               </>
             </div>
             <div className="">
@@ -183,7 +200,6 @@ const SignUp = () => {
                   Forgot password?
                 </a>
               </label> */}
-              <p className="text-red-500">{error}</p>
             </div>
             <div className=" mt-6">
               <button className=" w-full px-4 py-2 rounded-lg bg-[#1e3f2f] hover:bg-[#264838eb] text-white text-xl ">

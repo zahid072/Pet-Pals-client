@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   MobileNav,
   Typography,
-  Button,
   IconButton,
+  Spinner,
 } from "@material-tailwind/react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
+import Profile from "../profile/Profile";
 
 const Nav = () => {
-  const { user, logOut } = useAuth();
-  const [openNav, setOpenNav] = React.useState(false);
+  const [isProfile, setIsProfile] = useState(false);
+  const { user, navLoader } = useAuth();
+  const [openNav, setOpenNav] = useState(false);
   const { pathname } = useLocation();
+
+  const handleModal = (e) => {
+    e.stopPropagation();
+    setIsProfile(!isProfile);
+  };
+  window.addEventListener("click", () => {
+    setIsProfile(false);
+  });
 
   React.useEffect(() => {
     window.addEventListener(
@@ -20,11 +30,6 @@ const Nav = () => {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
-
-
-  const handleSignOut = () => {
-    logOut()
-  };
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -114,31 +119,55 @@ const Nav = () => {
   return (
     <div>
       <div className="max-h-[768px] max-w-[1540px] w-full">
-        <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4">
+        <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 lg:px-8">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
               as="a"
               href="#"
-              className="mr-4 cursor-pointer py-1.5 font-semibold text-2xl"
+              className="mr-4 cursor-pointer font-semibold text-2xl"
             >
-              <Link to={"/"}> Pet Pals</Link>
+              <Link to={"/"}> <img className="md:h-16 h-10" src="https://i.ibb.co/2Pxqzqc/OIG1-bygu-CHc-CZay-YDa-Ko7jcp-prev-u.png" alt="" /></Link>
             </Typography>
             <div className="mr-4 hidden lg:block">{navList}</div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-x-1">
-                {!user ? (
-                  <Link to={"/signIn"}>
-                    {" "}
-                    <button className="hidden bg-[#ADD8E6] lg:inline-block px-3 py-2 font-semibold rounded">
-                      <span>Sign in</span>
-                    </button>
-                  </Link>
-                ) : (
-                  <button onClick={handleSignOut} className="hidden bg-[#ADD8E6] lg:inline-block px-3 py-2 font-semibold rounded">
-                    <span>Sign Out</span>
-                  </button>
-                )}
-              </div>
+            <div className="flex items-center gap-2">
+              {!navLoader ? (
+                <>
+                  <div className="relative">
+                    {user && (
+                      <div
+                        onClick={handleModal}
+                        className="border-4 border-deep-purple-400 size-14 cursor-pointer rounded-full hover:shadow-lg"
+                      >
+                        <img
+                          className="size-full rounded-full"
+                          src={
+                            user?.photoURL
+                              ? user?.photoURL
+                              : "https://i.ibb.co/gw2zx3L/user.png"
+                          }
+                          alt=""
+                        />
+                      </div>
+                    )}
+                    {isProfile && <Profile setIsProfile={setIsProfile} />}
+                  </div>
+                  <div className="flex items-center gap-x-1">
+                    {!user ? (
+                      <Link to={"/signIn"}>
+                        {" "}
+                        <button className="hidden bg-[#ADD8E6] lg:inline-block px-3 py-2 font-semibold rounded">
+                          <span>Sign in</span>
+                        </button>
+                      </Link>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </>
+              ) : (
+                <Spinner />
+              )}
+
               <IconButton
                 variant="text"
                 className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -181,9 +210,16 @@ const Nav = () => {
           <MobileNav open={openNav}>
             {navList}
             <div className="flex items-center gap-x-1">
-              <Button fullWidth variant="gradient" size="sm" className="">
-                <span>Sign in</span>
-              </Button>
+              {!user ? (
+                <Link to={"/signIn"}>
+                  {" "}
+                  <button className="bg-[#ADD8E6] lg:hidden px-3 py-2 font-semibold rounded">
+                    <span>Sign in</span>
+                  </button>
+                </Link>
+              ) : (
+                ""
+              )}
             </div>
           </MobileNav>
         </Navbar>
