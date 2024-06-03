@@ -39,4 +39,10 @@
       transform: translateX(0%);
     }
   }
+
+  .categoryHover:hover{
+    box-shadow: 1px 1px 20px black;
+    transition: 0.3s;
+    border: 2px solid white;
+  }
       

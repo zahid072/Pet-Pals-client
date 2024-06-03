@@ -10,7 +10,7 @@ const Banner = () => {
             className="h-[650px] w-full bg-no-repeat bg-cover bg-center flex flex-col gap-5 items-center justify-center text-white"
           >
               <div className='z-50'>
-               <h1 className='font-gilda text-6xl text-white '>Create Happiness Save Lives</h1>
+               <h1 className='font-gilda md:text-5xl text-3xl text-center lg:text-6xl text-white '>Create Happiness Save Lives</h1>
               </div>
           </div>
     </div>

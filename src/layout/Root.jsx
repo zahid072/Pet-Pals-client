@@ -4,7 +4,7 @@ import Nav from "../pages/shared/navbar/Nav";
 
 const Root = () => {
   return (
-    <div>
+    <div className="font-poppins bg-blue-gray-50">
       {/* navbar */}
       <div>
         <Nav />

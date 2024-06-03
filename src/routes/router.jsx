@@ -9,6 +9,7 @@ import PetListing from "../pages/petListing/PetListing";
 import DonationCampaign from "../pages/DonationCampaign/DonationCampaign";
 import DashboardRoot from "../pages/dashboard/layout/DashboardRoot";
 import User_Admin_Router from "./User_Admin_Router";
+import BrowseCategory from "../pages/BrowseCategory/BrowseCategory";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <AboutUs />,
+      },
+      {
+        path: "/category/:petName",
+        element: <BrowseCategory />,
       },
       {
         path: "/signIn",
