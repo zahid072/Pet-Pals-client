@@ -94,7 +94,7 @@ const Sidebar = ({ setSidebarOpen }) => {
             </li>
             <li>
               <NavLink
-                to={"/dashboard/createDonationCampaigns"}
+                to={"/dashboard/createDonationCampaign"}
                 className={({ isActive }) =>
                   isActive
                     ? "text-deep-orange-500 flex items-center gap-1"
@@ -213,7 +213,7 @@ const Sidebar = ({ setSidebarOpen }) => {
             </li>
             <li>
               <NavLink
-                to={"/dashboard/myDonationCampaigns"}
+                to={"/dashboard/myDonationCampaign"}
                 className={({ isActive }) =>
                   isActive
                     ? "text-deep-orange-500 flex items-center gap-1"
@@ -266,7 +266,7 @@ const Sidebar = ({ setSidebarOpen }) => {
             </li>
             <li>
               <NavLink
-                to={"/dashboard/createDonationCampaigns"}
+                to={"/dashboard/createDonationCampaign"}
                 className={({ isActive }) =>
                   isActive
                     ? "text-deep-orange-500 flex items-center gap-1"
@@ -385,7 +385,7 @@ const Sidebar = ({ setSidebarOpen }) => {
             </li>
             <li>
               <NavLink
-                to={"/dashboard/myDonationCampaigns"}
+                to={"/dashboard/myDonationCampaign"}
                 className={({ isActive }) =>
                   isActive
                     ? "text-deep-orange-500 flex items-center gap-1"

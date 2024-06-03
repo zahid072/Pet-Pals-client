@@ -14,6 +14,11 @@ import PrivateRouter from "./PrivateRouter";
 import AdoptionRequest from "../pages/dashboard/user/AdoptionRequest/AdoptionRequest";
 import MyAddedPet from "../pages/dashboard/user/myAddedPet/MyAddedPet";
 import AllUser from "../pages/dashboard/admin/allUsers/AllUser";
+import AllDonation from "../pages/dashboard/admin/allDonation/AllDonation";
+import AllPets from "../pages/dashboard/admin/allPets/AllPets";
+import CreateDonationCampaign from "../pages/dashboard/user/createDonaitonCampaign/CreateDonationCampaign";
+import MyDonationCampaign from "../pages/dashboard/user/myDonationCampaign/MyDonationCampaign";
+import MyDonation from "../pages/dashboard/user/myDonation/MyDonation";
 
 const router = createBrowserRouter([
   {
@@ -62,11 +67,20 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: <User_Admin_Router />,
       },
+      // ------------------------admin routes------------------------
       {
         path: "/dashboard/users",
         element: <AllUser />,
       },
-
+      {
+        path: "/dashboard/allPet",
+        element: <AllPets />,
+      },
+      {
+        path: "/dashboard/allDonation",
+        element: <AllDonation />,
+      },
+    // ------------------------user routes------------------------
       {
         path: "/dashboard/myAddedPet",
         element: <MyAddedPet />,
@@ -74,6 +88,18 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/adoptionRequest",
         element: <AdoptionRequest />,
+      },
+      {
+        path: "/dashboard/createDonationCampaign",
+        element: <CreateDonationCampaign />,
+      },
+      {
+        path: "/dashboard/myDonationCampaign",
+        element: <MyDonationCampaign />,
+      },
+      {
+        path: "/dashboard/myDonation",
+        element: <MyDonation />,
       },
     ],
   },
