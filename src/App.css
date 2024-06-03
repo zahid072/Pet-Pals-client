@@ -10,8 +10,15 @@
   font-family: myFont;
   src: url(./font/FredokaOne-Regular.ttf);
 }
+@font-face {
+  font-family: balooFont;
+  src: url(./font/Baloo-Regular.ttf);
+}
 .font-fredoka{
   font-family: myFont;
+}
+.font-baloo{
+  font-family: balooFont;
 }
 
 

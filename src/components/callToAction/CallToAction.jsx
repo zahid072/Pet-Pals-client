@@ -5,7 +5,7 @@ const CallToAction = () => {
   return (
     <div>
       <SectionTop title={"Welcome To PET PALS"}/>
-      <div className="flex justify-center gap-4">
+      <div className="flex lg:flex-row flex-col justify-center gap-4">
         <div
           style={{
             backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url("https://i.ibb.co/y8xrY7n/Default-Create-a-heartwarming-scene-featuring-a-fluffy-Austral-3.jpg")`,

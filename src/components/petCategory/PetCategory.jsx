@@ -6,7 +6,7 @@ const PetCategory = () => {
   return (
     <div>
       <SectionTop title={"Browse By Category"}/>
-      <div className=" flex gap-5 flex-wrap justify-between">
+      <div className=" flex gap-5 flex-wrap justify-between *:mx-auto font-baloo">
         <Link to={"/category/cat"}>
           {" "}
           <div
@@ -15,7 +15,7 @@ const PetCategory = () => {
             }}
             className="flex items-center categoryHover bg-cover bg-center bg-no-repeat justify-center cursor-pointer size-48 rounded-lg border-2 border-orange-500"
           >
-            <h2 className="text-white text-xl font-semibold font-gilda uppercase tracking-widest">
+            <h2 className="text-white text-xl font-semibold uppercase tracking-widest">
               Cats
             </h2>
           </div>
@@ -29,7 +29,7 @@ const PetCategory = () => {
             }}
             className="flex items-center categoryHover bg-cover bg-center bg-no-repeat justify-center cursor-pointer size-48 rounded-lg border-2 border-orange-500"
           >
-            <h2 className="text-white text-xl font-semibold font-gilda uppercase tracking-widest">
+            <h2 className="text-white text-xl font-semibold  uppercase tracking-widest">
               Dogs
             </h2>
           </div>
@@ -43,7 +43,7 @@ const PetCategory = () => {
             }}
             className="flex items-center categoryHover bg-cover bg-center bg-no-repeat justify-center cursor-pointer size-48 rounded-lg border-2 border-orange-500"
           >
-            <h2 className="text-white text-xl font-semibold font-gilda uppercase tracking-widest">
+            <h2 className="text-white text-xl font-semibold  uppercase tracking-widest">
               Rabbits 
             </h2>
           </div>
@@ -57,7 +57,7 @@ const PetCategory = () => {
             }}
             className="flex items-center categoryHover bg-cover bg-center bg-no-repeat justify-center cursor-pointer size-48 rounded-lg border-2 border-orange-500"
           >
-            <h2 className="text-white text-xl font-bold font-gilda uppercase tracking-widest">
+            <h2 className="text-white text-xl font-bold  uppercase tracking-widest">
               Fishes 
             </h2>
           </div>
@@ -71,7 +71,7 @@ const PetCategory = () => {
             }}
             className="flex items-center categoryHover bg-cover bg-center bg-no-repeat justify-center cursor-pointer size-48 rounded-lg border-2 border-orange-500"
           >
-            <h2 className="text-white text-xl font-bold font-gilda uppercase tracking-widest">
+            <h2 className="text-white text-xl font-bold  uppercase tracking-widest">
               Birds 
             </h2>
           </div>
