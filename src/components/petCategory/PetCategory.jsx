@@ -62,6 +62,20 @@ const PetCategory = () => {
             </h2>
           </div>
         </Link>
+        {/* ------------------------------------------------------- */}
+        <Link to={"/category/bird"}>
+          {" "}
+          <div
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("https://t4.ftcdn.net/jpg/05/65/36/03/360_F_565360370_LrWWCTxczrmwqpsPYPljiFyE4gFqpecr.jpg")`,
+            }}
+            className="flex items-center categoryHover bg-cover bg-center bg-no-repeat justify-center cursor-pointer size-48 rounded-lg border-2 border-orange-500"
+          >
+            <h2 className="text-white text-xl font-bold font-gilda uppercase tracking-widest">
+              Birds 
+            </h2>
+          </div>
+        </Link>
       </div>
     </div>
   );

@@ -6,7 +6,13 @@
 .font-poppins {
   font-family: "Poppins", sans-serif;
 }
-
+@font-face {
+  font-family: myFont;
+  src: url(./font/FredokaOne-Regular.ttf);
+}
+.font-fredoka{
+  font-family: myFont;
+}
 
 
 .loader {

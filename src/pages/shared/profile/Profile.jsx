@@ -15,7 +15,7 @@ const Profile = ({setIsProfile}) => {
         </div>
       <button
         onClick={handleSignOut}
-        className=" bg-[#ADD8E6] mt-5 px-3 py-2 font-semibold rounded text-nowrap"
+        className=" bg-deep-orange-500 text-white btn-hover mt-5 px-3 py-2 font-semibold rounded text-nowrap"
       >
         <span>Sign Out</span>
       </button>

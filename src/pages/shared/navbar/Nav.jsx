@@ -155,7 +155,7 @@ const Nav = () => {
                     {!user ? (
                       <Link to={"/signIn"}>
                         {" "}
-                        <button className="hidden bg-[#ADD8E6] lg:inline-block px-3 py-2 font-semibold rounded">
+                        <button className="hidden bg-deep-orange-500 text-white btn-hover lg:inline-block px-3 py-2 font-semibold rounded">
                           <span>Sign in</span>
                         </button>
                       </Link>
