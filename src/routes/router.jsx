@@ -10,6 +10,10 @@ import DonationCampaign from "../pages/DonationCampaign/DonationCampaign";
 import DashboardRoot from "../pages/dashboard/layout/DashboardRoot";
 import User_Admin_Router from "./User_Admin_Router";
 import BrowseCategory from "../pages/BrowseCategory/BrowseCategory";
+import PrivateRouter from "./PrivateRouter";
+import AdoptionRequest from "../pages/dashboard/user/AdoptionRequest/AdoptionRequest";
+import MyAddedPet from "../pages/dashboard/user/myAddedPet/MyAddedPet";
+import AllUser from "../pages/dashboard/admin/allUsers/AllUser";
 
 const router = createBrowserRouter([
   {
@@ -48,11 +52,28 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardRoot />,
+    element: (
+      <PrivateRouter>
+        <DashboardRoot />
+      </PrivateRouter>
+    ),
     children: [
       {
         path: "/dashboard",
         element: <User_Admin_Router />,
+      },
+      {
+        path: "/dashboard/users",
+        element: <AllUser />,
+      },
+
+      {
+        path: "/dashboard/myAddedPet",
+        element: <MyAddedPet />,
+      },
+      {
+        path: "/dashboard/adoptionRequest",
+        element: <AdoptionRequest />,
       },
     ],
   },
