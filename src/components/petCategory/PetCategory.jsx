@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SectionTop from "../sectionTop/SectionTop";
 
 const PetCategory = () => {
   return (
     <div>
-      <h1 className="text-center font-semibold text-3xl">Browse By Category</h1>
-      <div className="mt-5 flex gap-5 flex-wrap justify-center">
+      <SectionTop title={"Browse By Category"}/>
+      <div className=" flex gap-5 flex-wrap justify-between">
         <Link to={"/category/cat"}>
           {" "}
           <div

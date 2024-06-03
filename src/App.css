@@ -45,4 +45,7 @@
     transition: 0.3s;
     border: 2px solid white;
   }
-      
+  .btn-hover:hover{
+    box-shadow: 1px 1px 10px black;
+    transition: 0.3s;
+  }    
