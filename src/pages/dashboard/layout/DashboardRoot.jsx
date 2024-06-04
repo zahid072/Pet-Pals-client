@@ -16,8 +16,8 @@ const DashboardRoot = () => {
         <div
           className={
             sidebarOpen
-              ? "w-80 h-screen z-50 bg-blue-gray-700 delay-03 text-white lg:static absolute left-0"
-              : "lg:w-1/4 h-screen z-50 md:bg-blue-gray-700 text-white lg:static delay-03 absolute right-full"
+              ? "w-80 z-50 bg-blue-gray-700 delay-03 text-white lg:static absolute left-0"
+              : "lg:w-1/4 z-50 md:bg-blue-gray-700 text-white lg:static delay-03 absolute right-full"
           }
         >
           <Sidebar setSidebarOpen={setSidebarOpen} />
@@ -29,7 +29,7 @@ const DashboardRoot = () => {
           <FaChevronRight />
         </button>
 
-        <div className="lg:w-3/4 w-full p-5 bg-blue-gray-100 h-screen">
+        <div className="lg:w-3/4 w-full p-5 bg-blue-gray-100">
           <Outlet />
         </div>
       </div>

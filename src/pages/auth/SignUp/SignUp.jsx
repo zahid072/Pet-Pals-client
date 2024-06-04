@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
-import { FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
-import axios from "axios";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const SignUp = () => {
@@ -97,7 +95,7 @@ const SignUp = () => {
                 <span className="label-text">Name</span>
               </label>
               <input
-                type="name"
+                type="text"
                 placeholder="Name"
                 {...register("name", {
                   required: {

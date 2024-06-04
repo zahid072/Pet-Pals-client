@@ -3,7 +3,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import useUsersData from "../../../../Hooks/useUsersData";
 
 const AllUser = () => {
-    const [userData] = useUsersData()
+    const {userData} = useUsersData()
     console.log(userData)
   return (
     <div>
