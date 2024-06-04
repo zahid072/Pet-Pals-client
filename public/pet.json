@@ -1,7 +1,7 @@
 [
   {
     "petName": "Whiskers",
-    "image": "https://example.com/images/whiskers.jpg",
+    "image": "https://as2.ftcdn.net/v2/jpg/04/16/05/87/1000_F_416058735_Ccj3TeyEbvXV40rcPqg55t6zOr02E9TH.jpg",
     "petAge": "2 years",
     "petCategory": "Cat",
     "location": "New York, NY",
@@ -12,7 +12,7 @@
   },
   {
     "petName": "Buddy",
-    "image": "https://example.com/images/buddy.jpg",
+    "image": "https://www.dogster.com/wp-content/uploads/2013/02/golden-retriever-dog-lying-on-the-floor_Standret_Shutterstock.jpg",
     "petAge": "3 years",
     "petCategory": "Dog",
     "location": "Los Angeles, CA",
@@ -23,7 +23,7 @@
   },
   {
     "petName": "Snowball",
-    "image": "https://example.com/images/snowball.jpg",
+    "image": "https://qph.cf2.quoracdn.net/main-qimg-0f6dcdeeefeb89a0bd0e323acb826f5e",
     "petAge": "1 year",
     "petCategory": "Rabbit",
     "location": "Chicago, IL",
@@ -34,7 +34,7 @@
   },
   {
     "petName": "Goldie",
-    "image": "https://example.com/images/goldie.jpg",
+    "image": "https://cdn.shopify.com/s/files/1/0311/3149/files/goldfish-feeding_1024x1024.jpg?v=1575892333",
     "petAge": "6 months",
     "petCategory": "Fish",
     "location": "Miami, FL",
@@ -45,7 +45,7 @@
   },
   {
     "petName": "Chirpy",
-    "image": "https://example.com/images/chirpy.jpg",
+    "image": "https://i.ytimg.com/vi/yoYnevMnFlA/maxresdefault.jpg",
     "petAge": "1.5 years",
     "petCategory": "Bird",
     "location": "Seattle, WA",
@@ -56,7 +56,7 @@
   },
   {
     "petName": "Midnight",
-    "image": "https://example.com/images/midnight.jpg",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbt_InO2qRhSOhHCre6amMT7OQF9MEtlcJsA&s",
     "petAge": "4 years",
     "petCategory": "Cat",
     "location": "San Francisco, CA",
@@ -67,7 +67,7 @@
   },
   {
     "petName": "Rex",
-    "image": "https://example.com/images/rex.jpg",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiLNtCreL42_Hr5fh2FoxhkW5bL8dCStQItw&s",
     "petAge": "2.5 years",
     "petCategory": "Dog",
     "location": "Houston, TX",
@@ -78,7 +78,7 @@
   },
   {
     "petName": "Thumper",
-    "image": "https://example.com/images/thumper.jpg",
+    "image": "https://supremepetfoods.com/wp-content/uploads/2023/04/iStock-1406196935-1200px.jpg",
     "petAge": "8 months",
     "petCategory": "Rabbit",
     "location": "Denver, CO",
@@ -89,7 +89,7 @@
   },
   {
     "petName": "Bubbles",
-    "image": "https://example.com/images/bubbles.jpg",
+    "image": "https://www.aquariadise.com/wp-content/uploads/2023/10/plants-for-betta-fish.jpg",
     "petAge": "1 year",
     "petCategory": "Fish",
     "location": "Boston, MA",
@@ -100,7 +100,7 @@
   },
   {
     "petName": "Sunny",
-    "image": "https://example.com/images/sunny.jpg",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT60ORJlJRKdq7vtBPCQkvyN6c2x9C241OtuQ&s",
     "petAge": "2 years",
     "petCategory": "Bird",
     "location": "Atlanta, GA",
@@ -111,7 +111,7 @@
   },
   {
     "petName": "Simba",
-    "image": "https://example.com/images/simba.jpg",
+    "image": "https://i.redd.it/vzv40svintb71.jpg",
     "petAge": "3 years",
     "petCategory": "Cat",
     "location": "Portland, OR",
@@ -122,7 +122,7 @@
   },
   {
     "petName": "Max",
-    "image": "https://example.com/images/max.jpg",
+    "image": "https://www.dogster.com/wp-content/uploads/2024/03/shutterstock_1717550440-1-scaled.jpg",
     "petAge": "1.5 years",
     "petCategory": "Dog",
     "location": "Phoenix, AZ",
@@ -133,7 +133,7 @@
   },
   {
     "petName": "Cocoa",
-    "image": "https://example.com/images/cocoa.jpg",
+    "image": "https://www.hepper.com/wp-content/uploads/2023/04/brown-dutch-rabbit-eating-carrots.jpg",
     "petAge": "2 years",
     "petCategory": "Rabbit",
     "location": "Las Vegas, NV",
@@ -144,7 +144,7 @@
   },
   {
     "petName": "Splash",
-    "image": "https://example.com/images/splash.jpg",
+    "image": "https://www.aquariumsource.com/wp-content/uploads/2021/04/guppy-fish-plant-aquarium.jpg",
     "petAge": "9 months",
     "petCategory": "Fish",
     "location": "San Diego, CA",
@@ -155,7 +155,7 @@
   },
   {
     "petName": "Tweety",
-    "image": "https://example.com/images/tweety.jpg",
+    "image": "https://www.beverlyhillsvets.com/blog/wp-content/uploads/2017/11/BevHills_iStock-577334124.jpg",
     "petAge": "1 year",
     "petCategory": "Bird",
     "location": "Orlando, FL",
@@ -166,11 +166,9 @@
   },
   {
     "petName": "Luna",
-    "image": "https://example.com/images/luna.jpg",
+    "image": "https://img.freepik.com/premium-photo/elegant-siamese-cat-with-striking-blue-eyes-lounging-golden-silk-pillow-against-dark_996993-13491.jpg",
     "petAge": "2 years",
-   
-
- "petCategory": "Cat",
+    "petCategory": "Cat",
     "location": "Austin, TX",
     "shortDescription": "A graceful Siamese cat with striking blue eyes.",
     "longDescription": "Luna is a 2-year-old Siamese cat known for her grace and striking blue eyes. She enjoys cuddling and is very affectionate.",
@@ -179,8 +177,8 @@
   },
   {
     "petName": "Rocky",
-    "image": "https://example.com/images/rocky.jpg",
-    "petAge": "4 years",
+    "image": "https://assets.orvis.com/is/image/orvisprd/AdobeStock_106921037",
+    "petAge": "1 years",
     "petCategory": "Dog",
     "location": "Dallas, TX",
     "shortDescription": "A strong and playful bulldog.",
@@ -201,8 +199,8 @@
   },
   {
     "petName": "Nemo",
-    "image": "https://example.com/images/nemo.jpg",
-    "petAge": "2 years",
+    "image": "https://img.freepik.com/premium-photo/vibrant-orange-blue-clown-fish-gracefully-swims-coral-aquarium-bright-orange-clownfish-swimming-coral-reefs-ai-generated_538213-19126.jpg",
+    "petAge": "1 years",
     "petCategory": "Fish",
     "location": "Tampa, FL",
     "shortDescription": "A clownfish with a vibrant orange color.",
@@ -212,7 +210,7 @@
   },
   {
     "petName": "Blue",
-    "image": "https://example.com/images/blue.jpg",
+    "image": "https://companionparrots.org/wp-content/uploads/2019/08/CPR_AbeParrot.jpg",
     "petAge": "1.5 years",
     "petCategory": "Bird",
     "location": "Charlotte, NC",

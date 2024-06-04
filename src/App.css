@@ -65,4 +65,23 @@
   .delay-03{
     transition: 0.3s;
   } 
+
+  .tooltip-shape {
+    color: #ffffff;
+    font-size: 18px;
+    max-width: 28ch;
+    text-align: center;
+  }
+  .tooltip-shape {
+    --s: 1.5em; /* triangle size */
+    --r: 1em; /* the radius */
+    border: var(--s) solid #0000;
+    border-radius: calc(var(--r) + var(--s));
+    border-bottom-right-radius: 0;
+    background: border-box linear-gradient(45deg,#968c93,#aaaaaa); 
+    -webkit-mask:
+      radial-gradient(100% 100% at 100% 0,#0000 99%,#000 102%) 
+        100% calc(100% - var(--s))/var(--s) var(--s) no-repeat border-box,
+      linear-gradient(#000 0 0) padding-box;
+  }
  
