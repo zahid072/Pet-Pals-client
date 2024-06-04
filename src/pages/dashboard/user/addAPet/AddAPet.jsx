@@ -1,17 +1,26 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
+import Tiptap from "../../../../components/tipTap/Tiptap";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import { toast } from "react-toastify";
 
 const options = [
-  { value: "cat", label: "Cat" },
-  { value: "dog", label: "Dog" },
-  { value: "rabbit", label: "Rabbit" },
-  { value: "fish", label: "Fish" },
-  { value: "bird", label: "Bird" },
+  { value: "Cat", label: "Cat" },
+  { value: "Dog", label: "Dog" },
+  { value: "Rabbit", label: "Rabbit" },
+  { value: "Fish", label: "Fish" },
+  { value: "Bird", label: "Bird" },
 ];
 
 const AddAPet = () => {
-  const [petValue, setPetValue] = useState(null);
+  const [petCategory, setPetCategory] = useState(null);
+  const [tempPhoto, setTempPhoto] = useState("");
+  const [submitLoader, setSubmitLoader] = useState(false);
+  const axiosSecure = useAxiosSecure();
+
+  const [editorDescription, setEditorDescription] = useState("");
+  console.log(editorDescription);
   const {
     register,
     handleSubmit,
@@ -19,8 +28,49 @@ const AddAPet = () => {
     formState: { errors },
   } = useForm();
 
-  const handleAddPet = (e) => {
-    e.preventDefault();
+  const handleAddPet = async (e) => {
+    const petName = e.name;
+    const image = e.photo[0];
+    const petAge = e.age;
+    const location = e.location;
+    const shortDescription = e.shortDescription;
+    const formData = new FormData();
+    formData.append("image", image);
+    setSubmitLoader(true);
+    const Res = await fetch(
+      "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const imgbbData = await Res.json();
+
+    const newPet = {
+      petName,
+      image,
+      petAge,
+      petCategory,
+      location,
+      shortDescription,
+      longDescription: editorDescription,
+      timestamp: new Date().toISOString(),
+      adopted: false,
+    };
+
+    if (imgbbData.data?.url) {
+      axiosSecure.post("/pets", newPet).then((res) => {
+        if (res.data.insertedId) {
+          setSubmitLoader(false);
+          setTempPhoto("");
+          reset();
+          toast.success("Pet Added Successfully.")
+        }
+      }).catch(err =>{
+        setSubmitLoader(false)
+        toast.error(err.message)
+      })
+    }
   };
 
   return (
@@ -29,7 +79,10 @@ const AddAPet = () => {
         Add A Pet For Adoption
       </h1>
       <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>
-      <div className="bg-white p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow ">
+      <div className="bg-white relative p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow ">
+        {submitLoader && (
+          <span className="loader absolute z-50 top-0 right-0 left-0 "></span>
+        )}
         <div>
           <form onSubmit={handleSubmit(handleAddPet)} className="space-y-5">
             <div className="grid md:grid-cols-2 grid-cols-1 justify-items-center gap-4">
@@ -54,16 +107,23 @@ const AddAPet = () => {
               {/* ----------------------- */}
               <div className="w-full">
                 <label>Pet Image</label>
-                <input
-                  className="w-full p-4 rounded-lg border-2"
-                  type="file"
-                  {...register("photo", {
-                    required: {
-                      value: true,
-                      message: "Image is required",
-                    },
-                  })}
-                />
+
+                <div className="flex items-center">
+                  <input
+                    className="w-full p-4 rounded-lg border-2"
+                    type="file"
+                    {...register("photo", {
+                      required: {
+                        value: true,
+                        message: "Image is required",
+                      },
+                    })}
+                    onChange={(e) => {
+                      setTempPhoto(URL.createObjectURL(e.target.files[0]));
+                    }}
+                  />
+                  <img className="h-14" src={tempPhoto} alt="" />
+                </div>
                 {errors.photo && (
                   <p className="text-red-500">{errors.photo.message}</p>
                 )}
@@ -90,8 +150,8 @@ const AddAPet = () => {
               <div className="w-full">
                 <label>Pet Category</label>
                 <Select
-                  defaultValue={petValue}
-                  onChange={setPetValue}
+                  defaultValue={petCategory}
+                  onChange={setPetCategory}
                   options={options}
                   placeholder="Select Pet Category"
                   styles={{
@@ -145,7 +205,7 @@ const AddAPet = () => {
             {/* ----------------------- */}
             <div className="w-full">
               <label>Description</label>
-              <textarea
+              {/* <textarea
                 className="w-full p-4 rounded-lg border-2"
                 type="text"
                 placeholder="Enter Description "
@@ -155,7 +215,8 @@ const AddAPet = () => {
                     message: "Description is required",
                   },
                 })}
-              />
+              /> */}
+              <Tiptap setEditorDescription={setEditorDescription} />
               {errors.description && (
                 <p className="text-red-500">{errors.description.message}</p>
               )}

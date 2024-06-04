@@ -7,7 +7,7 @@ const PetCategory = () => {
     <div>
       <SectionTop title={"Browse By Category"}/>
       <div className=" flex gap-5 flex-wrap justify-between *:mx-auto font-baloo">
-        <Link to={"/category/cat"}>
+        <Link to={"/category/Cat"}>
           {" "}
           <div
             style={{
@@ -21,7 +21,7 @@ const PetCategory = () => {
           </div>
         </Link>
         {/* ---------------------------------------------------------- */}
-        <Link to={"/category/dog"}>
+        <Link to={"/category/Dog"}>
           {" "}
           <div
             style={{
@@ -35,7 +35,7 @@ const PetCategory = () => {
           </div>
         </Link>
         {/* ------------------------------------------------------- */}
-        <Link to={"/category/rabbit"}>
+        <Link to={"/category/Rabbit"}>
           {" "}
           <div
             style={{
@@ -49,7 +49,7 @@ const PetCategory = () => {
           </div>
         </Link>
         {/* ------------------------------------------------------- */}
-        <Link to={"/category/fish"}>
+        <Link to={"/category/Fish"}>
           {" "}
           <div
             style={{
@@ -63,7 +63,7 @@ const PetCategory = () => {
           </div>
         </Link>
         {/* ------------------------------------------------------- */}
-        <Link to={"/category/bird"}>
+        <Link to={"/category/Bird"}>
           {" "}
           <div
             style={{

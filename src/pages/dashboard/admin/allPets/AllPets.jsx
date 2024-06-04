@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAllData from "../../../../Hooks/useAllData";
 import { Avatar, Card, Typography } from "@material-tailwind/react";
 import TimeStamp from "../../../../components/timeStamp/TimeStamp";
@@ -7,12 +7,30 @@ import useAuth from "../../../../Hooks/useAuth";
 import useUsersData from "../../../../Hooks/useUsersData";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa6";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import axios from "axios";
+
+const getPets = async ({ pageParam = 0 }) => {
+  const response = await axios.get(`http://localhost:5000/pets`, {
+    params: { page: pageParam, limit: 10 },
+  });
+  return response.data;
+};
 
 const AllPets = () => {
   const [allPetsData] = useAllData();
   const { admin } = useUsersData();
   const [modal, setModal] = useState(0);
   const { user } = useAuth();
+
+  // ----------------------------------
+  // const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+  //   useInfiniteQuery("pets", fetchPets, {
+  //     getNextPageParam: (lastPage, pages) => lastPage.nextPage ?? false,
+  //   });
+              console.log(getPets)
+ 
+  // -----------------------------------------
 
   const handlePopUp = (e, id) => {
     e.stopPropagation();
@@ -117,11 +135,14 @@ const AllPets = () => {
                   </tr>
                 </thead>
                 <tbody>
+                 
                   {allPetsData.map((pets, index) => (
                     <tr
                       key={index}
                       className={
-                        pets?.adopted ? "bg-blue-gray-50/50" : "bg-white"
+                        pets?.adopted
+                          ? "bg-blue-gray-50/50"
+                          : `bg-white ${modal === index + 1 ? "bg-[#ccc]" : ""}`
                       }
                     >
                       <td className="p-4">
@@ -197,7 +218,7 @@ const AllPets = () => {
                                   onClick={() => {
                                     handleAdmin(pets?._id);
                                   }}
-                                  className="px-3 flex gap-2 hover:border-deep-orange-500 items-center rounded border text-nowrap text-white border-white mb-2"
+                                  className="px-3 flex gap-2 hover:bg-deep-orange-500 items-center rounded border text-nowrap text-white border-white mb-2"
                                 >
                                   {" "}
                                   <FaPen />
@@ -208,7 +229,7 @@ const AllPets = () => {
                                   onClick={() => {
                                     handleDelete(pets?._id);
                                   }}
-                                  className={`px-3 flex gap-2 hover:border-deep-orange-500 items-center rounded border text-nowrap text-white border-white`}
+                                  className={`px-3 flex gap-2 hover:bg-deep-orange-500 items-center rounded border text-nowrap text-white border-white`}
                                 >
                                   <FaTrashAlt />
                                   Delete
