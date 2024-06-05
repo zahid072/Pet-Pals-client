@@ -3,10 +3,14 @@
       margin-top: 0.75em;
     }
   
-    ul,
-    ol {
+    ul{
       padding: 0 1rem;
       list-style: disc;
+    }
+    
+    ol{
+      padding: 0 1rem;
+      list-style: decimal;
     }
   
    

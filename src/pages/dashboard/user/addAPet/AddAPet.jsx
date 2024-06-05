@@ -81,6 +81,7 @@ const AddAPet = () => {
             if (res.data.insertedId) {
               setSubmitLoader(false);
               setTempPhoto("");
+              setEditorDescription("")
               reset();
               toast.success("Pet Added Successfully.");
             }

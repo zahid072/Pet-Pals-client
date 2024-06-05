@@ -15,7 +15,7 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState({name:"", category:""});
   const googleProvider = new GoogleAuthProvider();
   const [navLoader, setNavLoader] = useState(false);
   const gitHubProvider = new GithubAuthProvider();

@@ -6,9 +6,12 @@ import "./tiptap.css";
 import Underline from "@tiptap/extension-underline";
 import { MdFormatListBulleted, MdFormatUnderlined } from "react-icons/md";
 import BulletList from "@tiptap/extension-bullet-list";
+import { LuHeading1, LuHeading2 } from "react-icons/lu";
+import { GoListOrdered } from "react-icons/go";
+import OrderedList from "@tiptap/extension-ordered-list";
 
 // define your extension array
-const extensions = [StarterKit, Underline, BulletList];
+const extensions = [StarterKit, Underline, BulletList, OrderedList];
 
 const Tiptap = ({ setEditorDescription, editorDescription }) => {
   const editor = useEditor({
@@ -16,7 +19,7 @@ const Tiptap = ({ setEditorDescription, editorDescription }) => {
     editorProps: {
       attributes: {
         class:
-          "flex flex-col px-4 py-3 justify-start text-gray-900 items-start w-full gap-3 font-medium pt-4 outline-none",
+          "flex flex-col px-4 py-3 justify-start text-gray-900 items-start w-full font-medium outline-none",
       },
     },
     content:editorDescription,
@@ -73,15 +76,30 @@ const Tiptap = ({ setEditorDescription, editorDescription }) => {
           <MdFormatListBulleted />
         </button>
         <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        className={editor.isActive('orderedList text-2xl') ? 'is-active' : 'text-2xl'}
+      >
+        <GoListOrdered />
+      </button>
+        <button
+        type="button"
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 1 }).run()
           }
           className={
-            editor.isActive("heading", { level: 1 }) ? "is-active" : ""
+            editor.isActive("heading text-2xl", { level: 1 }) ? "is-active" : "text-2xl"
           }
         >
-          h1
+          <LuHeading1 />
         </button>
+        <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+        className={editor.isActive('heading text-2xl', { level: 2 }) ? 'is-active' : 'text-2xl'}
+      >
+        <LuHeading2 />
+      </button>
       </div>
       <div className="border-b border-r border-l max-h-32 overflow-y-scroll rounded rounded-t-none border-gray-700">
         <EditorContent editor={editor} />

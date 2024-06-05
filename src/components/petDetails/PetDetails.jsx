@@ -18,7 +18,6 @@ const PetDetails = ({pet}) => {
       };
     
       const htmlContent = convertJsonToHtml();
-      console.log(htmlContent);
   return (
     <div>
        <div id='tiptap' dangerouslySetInnerHTML={{ __html: htmlContent }} />

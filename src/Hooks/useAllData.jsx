@@ -4,23 +4,26 @@ import useAuth from "./useAuth";
 
 const useAllData = () => {
   const axiosPublic = useAxiosPublic();
-  const {searchTerm} = useAuth()
-  const { refetch, data: allPetsData = [] } = useQuery({
-    queryKey: ["allPetsData"],
-    queryFn: async () => {
-      const pets = await axiosPublic.get("/pets");
-      return pets.data;
-    },
-  });
+  const { user, searchTerm } = useAuth();
+  // const { refetch:userPetRefetch, data: userPetsData = [] } = useQuery({
+  //   queryKey: ["userAddedPets"],
+  //   queryFn: async () => {
+  //     const pets = await axiosPublic.get("/pets/userAdded", {
+  //       params: { email: user?.email },
+  //     });
+  //     return pets.data;
+  //   },
+  // });
   const { refetch: petListingRefetch, data: petListingData = [] } = useQuery({
     queryKey: ["petListingData"],
     queryFn: async () => {
-      const pets = await axiosPublic.get("/pets/search", {
-        params: { name: searchTerm }});
+      const pets = await axiosPublic.get(
+        `/pets/search?name=${searchTerm?.name}&category=${searchTerm?.category}`
+      );
       return pets.data;
     },
   });
-  return [allPetsData, refetch, petListingData, petListingRefetch];
+  return [petListingData, petListingRefetch];
 };
 
 export default useAllData;
