@@ -11,6 +11,7 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import UpdateStatus from "../../../../components/modals/UpdateStatus";
+import PetsUpdate from "../../../../components/modals/PetsUpdate";
 
 const getPets = async ({ pageParam = 1 }) => {
   const res = await axios.get(
@@ -21,8 +22,10 @@ const getPets = async ({ pageParam = 1 }) => {
 
 const AllPets = () => {
   const { admin } = useUsersData();
+  const { user } = useAuth();
   const [selectedPet, setSelectedPet] = useState({});
   const [statusModal, setStatusModal] = useState(false);
+  const [petUpdateModal, setPetUpdateModal] = useState(false);
   const [modal, setModal] = useState(0);
   const axiosSecure = useAxiosSecure();
 
@@ -53,14 +56,11 @@ const AllPets = () => {
     }
   };
   // ---------------------------------------------------
-  const handleAdmin = (id) => {
-    // axiosSecure.patch(`/allUsers/${id}`, { role: "admin" }).then((res) => {
-    //   console.log(res.data);
-    //   if (res.data.modifiedCount) {
-    //     setModal(0);
-    //     refetch();
-    //   }
-    // });
+  const handleUpdate = (pet) => {
+    if (user) {
+      setSelectedPet(pet);
+      setPetUpdateModal(!petUpdateModal);
+    }
   };
 
   const handleDelete = (id) => {
@@ -251,9 +251,9 @@ const AllPets = () => {
                                   >
                                     <button
                                       onClick={() => {
-                                        handleAdmin(pets?._id);
+                                        handleUpdate(pets);
                                       }}
-                                      className="px-3 flex gap-2 hover:bg-deep-orange-500 items-center rounded border text-nowrap text-white border-white mb-2"
+                                      className="px-3 flex gap-2 hover:bg-deep-purple-500 items-center rounded border text-nowrap text-white border-white mb-2"
                                     >
                                       {" "}
                                       <FaPen />
@@ -264,7 +264,7 @@ const AllPets = () => {
                                       onClick={() => {
                                         handleDelete(pets?._id);
                                       }}
-                                      className={`px-3 flex gap-2 hover:bg-deep-orange-500 items-center rounded border text-nowrap text-white border-white`}
+                                      className={`px-3 flex gap-2 hover:bg-deep-purple-500 items-center rounded border text-nowrap text-white border-white`}
                                     >
                                       <FaTrashAlt />
                                       Delete
@@ -288,6 +288,15 @@ const AllPets = () => {
               refetch={refetch}
               selectedPet={selectedPet}
               setStatusModal={setStatusModal}
+            />
+          </>
+        )}
+        {petUpdateModal && (
+          <>
+            <PetsUpdate
+              refetch={refetch}
+              selectedPet={selectedPet}
+              setPetUpdateModal={setPetUpdateModal}
             />
           </>
         )}

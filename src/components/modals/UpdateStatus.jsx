@@ -18,7 +18,7 @@ const UpdateStatus = ({ selectedPet, setStatusModal, refetch }) => {
     e.preventDefault();
     if (admin) {
       axiosSecure
-        .patch(`/pets/${selectedPet?._id}`, { adopted: petStatus.value })
+        .patch(`/pets/status/${selectedPet?._id}`, { adopted: petStatus.value })
         .then((res) => {
           if (res.data.modifiedCount) {
             setStatusModal(false);

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
+import Tiptap from "../tipTap/Tiptap";
 import Select from "react-select";
-import Tiptap from "../../../../components/tipTap/Tiptap";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
-import useAuth from "../../../../Hooks/useAuth";
+import { IoClose } from "react-icons/io5";
+import { Editor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
+import BulletList from "@tiptap/extension-bullet-list";
 
 const options = [
   { value: "Cat", label: "Cat" },
@@ -14,21 +19,44 @@ const options = [
   { value: "Bird", label: "Bird" },
 ];
 
-const AddAPet = () => {
-  const [petCategory, setPetCategory] = useState(null);
-  const [tempPhoto, setTempPhoto] = useState("");
+const PetsUpdate = ({refetch, selectedPet, setPetUpdateModal }) => {
+  const [err, setErr] = useState("");
+  const [petCategory, setPetCategory] = useState({
+    value: selectedPet?.petCategory,
+    label: selectedPet?.petCategory,
+  });
+  const [tempPhoto, setTempPhoto] = useState(selectedPet?.image);
   const [submitLoader, setSubmitLoader] = useState(false);
   const axiosSecure = useAxiosSecure();
-  const {user} = useAuth()
+  const { user } = useAuth();
+  //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  const convertJsonToHtml = () => {
+    if (selectedPet?.longDescription) {
+      const editor = new Editor({
+        content: selectedPet.longDescription,
+        extensions: [StarterKit, Underline, BulletList],
+      });
+      return editor.getHTML();
+    }
+    return "";
+  };
+  const htmlContent = convertJsonToHtml();
+  const [editorDescription, setEditorDescription] = useState(htmlContent);
+  // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-  const [editorDescription, setEditorDescription] = useState("");
   console.log(editorDescription);
+  const defaultValues = {
+    name: selectedPet?.petName,
+    age: selectedPet?.petAge,
+    location: selectedPet?.location,
+    shortDescription: selectedPet?.shortDescription,
+  };
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues });
 
   const handleAddPet = async (e) => {
     const petName = e.name;
@@ -38,9 +66,12 @@ const AddAPet = () => {
     const shortDescription = e.shortDescription;
     const formData = new FormData();
     formData.append("image", image);
+    setErr("");
+    if (!editorDescription) {
+      return setErr("Long description is required.");
+    }
     setSubmitLoader(true);
-  
-    try {
+    
       const res = await fetch(
         "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
         {
@@ -48,41 +79,34 @@ const AddAPet = () => {
           body: formData,
         }
       );
-  
-      if (!res.ok) {
-        // Handle HTTP errors
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-  
+
       const imgbbData = await res.json();
-  
-      if (!imgbbData.success) {
-        // Handle API-specific errors
-        throw new Error(imgbbData.error.message);
-      }
-  
+
       const newPet = {
         petName,
-        image: imgbbData.data?.url,
+        image: imgbbData.data?.url ? imgbbData.data?.url : selectedPet?.image,
         petAge,
         petCategory: petCategory.value,
         location,
         shortDescription,
         longDescription: editorDescription,
-        timestamp: new Date().toISOString(),
-        adopted: false,
-        email:user?.email
+        timestamp: selectedPet?.timestamp,
+        adopted: selectedPet?.adopted,
+        email: selectedPet?.email,
       };
-  
-      if (imgbbData.data?.url) {
+
+      if (imgbbData.data?.url || selectedPet.image) {
         axiosSecure
-          .post("/pets", newPet)
+          .patch(`/pets/${selectedPet?._id}`, newPet)
           .then((res) => {
-            if (res.data.insertedId) {
+            if (res.data.modifiedCount) {
               setSubmitLoader(false);
               setTempPhoto("");
-              reset();
-              toast.success("Pet Added Successfully.");
+              setEditorDescription("");
+              reset(defaultValues);
+              setPetUpdateModal(false);
+              refetch()
+              toast.success("Pet Updated Successfully.");
             }
           })
           .catch((err) => {
@@ -90,20 +114,19 @@ const AddAPet = () => {
             toast.error(`Error saving pet: ${err.message}`);
           });
       }
-    } catch (error) {
-      // Handle fetch errors or JSON parsing errors
-      setSubmitLoader(false);
-      toast.error(`Error uploading image: ${error.message}`);
-    }
+    
   };
-
   return (
-    <div>
-      <h1 className="text-center text-3xl font-semibold font-baloo mt-5 ">
-        Add A Pet For Adoption
-      </h1>
-      <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>
-      <div className="bg-white relative p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow ">
+    <div className="bg-[#e5e3e26d] lg:w-1/2 md:w-4/5 w-[95%] backdrop-blur-md z-50 rounded shadow-lg fixed left-1/2 -translate-x-1/2 top-[10%]">
+      <div className="bg-[#e5e3e2] relative p-6 rounded-lg  w-full z-10 shadow ">
+        <button
+          onClick={() => {
+            setPetUpdateModal(false);
+          }}
+          className="p-1 absolute top-3 right-3 bg-blue-gray-200 rounded"
+        >
+          <IoClose className="text-black text-xl" />
+        </button>
         {submitLoader && (
           <span className="loader absolute z-50 top-0 right-0 left-0 "></span>
         )}
@@ -136,12 +159,7 @@ const AddAPet = () => {
                   <input
                     className="w-full p-4 rounded-lg border-2"
                     type="file"
-                    {...register("photo", {
-                      required: {
-                        value: true,
-                        message: "Image is required",
-                      },
-                    })}
+                    {...register("photo")}
                     onChange={(e) => {
                       setTempPhoto(URL.createObjectURL(e.target.files[0]));
                     }}
@@ -227,9 +245,7 @@ const AddAPet = () => {
               </div>
             </div>
             {/* ----------------------- */}
-            <div
-              className="w-full"
-            >
+            <div className="w-full">
               <label>Long Description</label>
               {/* <textarea
                 className="w-full p-4 rounded-lg border-2"
@@ -242,14 +258,18 @@ const AddAPet = () => {
                   },
                 })}
               /> */}
-              <Tiptap setEditorDescription={setEditorDescription} />
-              {errors.description && (
-                <p className="text-red-500">{errors.description.message}</p>
-              )}
+              <Tiptap
+                setEditorDescription={setEditorDescription}
+                editorDescription={editorDescription}
+              />
+              {err && <p className="text-red-500">{err}</p>}
             </div>
 
             <div className="flex justify-center">
-              <button type="submit" className="px-4 py-3 rounded-lg border-2 text-white uppercase bg-deep-orange-500 btn-hover">
+              <button
+                type="submit"
+                className="px-4 py-3 rounded-lg border-2 text-white uppercase bg-deep-orange-500 btn-hover"
+              >
                 Add Pet
               </button>
             </div>
@@ -260,4 +280,4 @@ const AddAPet = () => {
   );
 };
 
-export default AddAPet;
+export default PetsUpdate;

@@ -24,7 +24,7 @@ const DashboardRoot = () => {
         </div>
         <button
           onClick={handleSidebar}
-          className=" py-2 text-3xl lg:hidden block rounded-r top-1/2 -translate-y-1/2 z-10 bg-[#ff663b72] text-white fixed -left-1"
+          className=" py-2 text-3xl lg:hidden block rounded-r top-1/2 -translate-y-1/2 z-40 bg-[#ff663b72] text-white fixed -left-1"
         >
           <FaChevronRight />
         </button>

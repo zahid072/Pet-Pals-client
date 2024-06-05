@@ -10,9 +10,7 @@ import BulletList from "@tiptap/extension-bullet-list";
 // define your extension array
 const extensions = [StarterKit, Underline, BulletList];
 
-const content = "";
-
-const Tiptap = ({ setEditorDescription }) => {
+const Tiptap = ({ setEditorDescription, editorDescription }) => {
   const editor = useEditor({
     extensions,
     editorProps: {
@@ -21,7 +19,7 @@ const Tiptap = ({ setEditorDescription }) => {
           "flex flex-col px-4 py-3 justify-start text-gray-900 items-start w-full gap-3 font-medium pt-4 outline-none",
       },
     },
-    content,
+    content:editorDescription,
     onUpdate({ editor }) {
       setEditorDescription(editor.getJSON());
     },
@@ -68,16 +66,22 @@ const Tiptap = ({ setEditorDescription }) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive("bulletList text-2xl") ? "is-active" : "text-2xl"}
+          className={
+            editor.isActive("bulletList text-2xl") ? "is-active" : "text-2xl"
+          }
         >
           <MdFormatListBulleted />
         </button>
         <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
-      >
-        h1
-      </button>
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
+          className={
+            editor.isActive("heading", { level: 1 }) ? "is-active" : ""
+          }
+        >
+          h1
+        </button>
       </div>
       <div className="border-b border-r border-l max-h-32 overflow-y-scroll rounded rounded-t-none border-gray-700">
         <EditorContent editor={editor} />
