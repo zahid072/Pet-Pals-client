@@ -10,6 +10,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import UpdateStatus from "../../../../components/modals/UpdateStatus";
 
 const getPets = async ({ pageParam = 1 }) => {
   const res = await axios.get(
@@ -19,10 +20,10 @@ const getPets = async ({ pageParam = 1 }) => {
 };
 
 const AllPets = () => {
-  const [allPetsData] = useAllData();
   const { admin } = useUsersData();
+  const [selectedPet, setSelectedPet] = useState({});
+  const [statusModal, setStatusModal] = useState(false);
   const [modal, setModal] = useState(0);
-  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   // ----------------------------------
@@ -51,6 +52,7 @@ const AllPets = () => {
       setModal(0);
     }
   };
+  // ---------------------------------------------------
   const handleAdmin = (id) => {
     // axiosSecure.patch(`/allUsers/${id}`, { role: "admin" }).then((res) => {
     //   console.log(res.data);
@@ -60,15 +62,7 @@ const AllPets = () => {
     //   }
     // });
   };
-  const handleUser = (id) => {
-    // axiosSecure.patch(`/allUsers/${id}`, { role: "user" }).then((res) => {
-    //   console.log(res.data);
-    //   if (res.data.modifiedCount) {
-    //     setModal(0);
-    //     refetch();
-    //   }
-    // });
-  };
+
   const handleDelete = (id) => {
     axiosSecure.delete(`/pets/${id}`).then((res) => {
       console.log(res.data);
@@ -77,6 +71,14 @@ const AllPets = () => {
         refetch();
       }
     });
+  };
+  // ---------------------------------------------------
+
+  const handleStatusModal = (pet) => {
+    if (admin) {
+      setSelectedPet(pet);
+      setStatusModal(!statusModal);
+    }
   };
   return (
     <div>
@@ -90,7 +92,7 @@ const AllPets = () => {
               }
             : ""
         }
-        className="bg-white p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow "
+        className="bg-white p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow"
       >
         <div>
           <div className="">
@@ -216,6 +218,9 @@ const AllPets = () => {
                               className="font-normal"
                             >
                               <span
+                                onClick={() => {
+                                  handleStatusModal(pets);
+                                }}
                                 className={
                                   admin
                                     ? " hover:bg-blue-gray-100 p-2 rounded cursor-pointer"
@@ -277,6 +282,15 @@ const AllPets = () => {
             </InfiniteScroll>
           </div>
         </div>
+        {statusModal && (
+          <>
+            <UpdateStatus
+              refetch={refetch}
+              selectedPet={selectedPet}
+              setStatusModal={setStatusModal}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ const Sidebar = ({ setSidebarOpen }) => {
   const {admin} = useUsersData();
 
   return (
-    <div className="lg:sticky top-0">
+    <div className="sticky top-0">
       <div className="w-full p-5 relative">
         <button
           onClick={() => {
