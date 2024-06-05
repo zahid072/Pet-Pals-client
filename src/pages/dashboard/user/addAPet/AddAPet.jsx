@@ -37,39 +37,60 @@ const AddAPet = () => {
     const formData = new FormData();
     formData.append("image", image);
     setSubmitLoader(true);
-    const Res = await fetch(
-      "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const imgbbData = await Res.json();
-
-    const newPet = {
-      petName,
-      image,
-      petAge,
-      petCategory,
-      location,
-      shortDescription,
-      longDescription: editorDescription,
-      timestamp: new Date().toISOString(),
-      adopted: false,
-    };
-
-    if (imgbbData.data?.url) {
-      axiosSecure.post("/pets", newPet).then((res) => {
-        if (res.data.insertedId) {
-          setSubmitLoader(false);
-          setTempPhoto("");
-          reset();
-          toast.success("Pet Added Successfully.")
+  
+    try {
+      const res = await fetch(
+        "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
+        {
+          method: "POST",
+          body: formData,
         }
-      }).catch(err =>{
-        setSubmitLoader(false)
-        toast.error(err.message)
-      })
+      );
+  
+      if (!res.ok) {
+        // Handle HTTP errors
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+  
+      const imgbbData = await res.json();
+  
+      if (!imgbbData.success) {
+        // Handle API-specific errors
+        throw new Error(imgbbData.error.message);
+      }
+  
+      const newPet = {
+        petName,
+        image: imgbbData.data?.url,
+        petAge,
+        petCategory: petCategory.value,
+        location,
+        shortDescription,
+        longDescription: editorDescription,
+        timestamp: new Date().toISOString(),
+        adopted: false,
+      };
+  
+      if (imgbbData.data?.url) {
+        axiosSecure
+          .post("/pets", newPet)
+          .then((res) => {
+            if (res.data.insertedId) {
+              setSubmitLoader(false);
+              setTempPhoto("");
+              reset();
+              toast.success("Pet Added Successfully.");
+            }
+          })
+          .catch((err) => {
+            setSubmitLoader(false);
+            toast.error(`Error saving pet: ${err.message}`);
+          });
+      }
+    } catch (error) {
+      // Handle fetch errors or JSON parsing errors
+      setSubmitLoader(false);
+      toast.error(`Error uploading image: ${error.message}`);
     }
   };
 
@@ -203,8 +224,10 @@ const AddAPet = () => {
               </div>
             </div>
             {/* ----------------------- */}
-            <div className="w-full">
-              <label>Description</label>
+            <div
+              className="w-full"
+            >
+              <label>Long Description</label>
               {/* <textarea
                 className="w-full p-4 rounded-lg border-2"
                 type="text"
@@ -223,7 +246,7 @@ const AddAPet = () => {
             </div>
 
             <div className="flex justify-center">
-              <button className="px-4 py-3 rounded-lg border-2 text-white uppercase bg-deep-orange-500 btn-hover">
+              <button type="submit" className="px-4 py-3 rounded-lg border-2 text-white uppercase bg-deep-orange-500 btn-hover">
                 Add Pet
               </button>
             </div>

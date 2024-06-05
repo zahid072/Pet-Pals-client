@@ -1,11 +1,20 @@
-import React from 'react'
+import React from "react";
+import useAllData from "../../Hooks/useAllData";
+import PetDetails from "../../components/petDetails/PetDetails";
 
 const PetListing = () => {
-  return (
-    <div>
-      petListing
-    </div>
-  )
-}
+  const [petListingData, PetListingRefetch] = useAllData();
+  console.log(petListingData)
+  return <div>
 
-export default PetListing
+    {
+      petListingData.map((pet, index)=>(
+        <div key={index}>
+         <PetDetails pet={pet}/>
+        </div>
+      ))
+    }
+  </div>;
+};
+
+export default PetListing;

@@ -5,7 +5,7 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
-  GoogleAuthProvider
+  GoogleAuthProvider,
 } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.config";
@@ -15,6 +15,7 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const googleProvider = new GoogleAuthProvider();
   const [navLoader, setNavLoader] = useState(false);
   const gitHubProvider = new GithubAuthProvider();
@@ -45,24 +46,24 @@ const AuthProvider = ({ children }) => {
       return updateProfile(auth.currentUser, {
         displayName: name,
         photoURL: photo,
-      })
+      });
     } else if (name) {
       return updateProfile(auth.currentUser, {
         displayName: name,
-      })
+      });
     } else {
       return updateProfile(auth.currentUser, {
         photoURL: photo,
-      })
+      });
     }
   };
 
   useEffect(() => {
-    setNavLoader(true)
+    setNavLoader(true);
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoader(false)
-      setNavLoader(false)
+      setLoader(false);
+      setNavLoader(false);
     });
     return () => {
       unsubscribe();
@@ -79,6 +80,8 @@ const AuthProvider = ({ children }) => {
     signInWithGitHub,
     updateUserProfile,
     logOut,
+    setSearchTerm,
+    searchTerm,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
