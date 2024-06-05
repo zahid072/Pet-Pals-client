@@ -165,7 +165,7 @@ const AllPets = () => {
                             pets?.adopted
                               ? "bg-blue-gray-50/50"
                               : `bg-white ${
-                                  modal === index + 1 ? "bg-[#c8c8c834]" : ""
+                                  modal === index + 1 ? "bg-[#c8c8c850]" : ""
                                 }`
                           }
                         >

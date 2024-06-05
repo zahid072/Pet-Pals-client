@@ -1,5 +1,6 @@
 import React from "react";
 import SectionTop from "../sectionTop/SectionTop";
+import { Link } from "react-router-dom";
 
 const CallToAction = () => {
   return (
@@ -20,9 +21,11 @@ const CallToAction = () => {
             and loyalty. Take the first step towards making a difference and
             find your perfect pet match today.
           </p>
+          <Link to={"/petListing"}>
           <button className="px-6 py-3 bg-deep-orange-500 rounded-full text-white uppercase btn-hover border-2 border-white">
             Adopt Now
           </button>
+          </Link>
         </div>
       </div>
     </div>

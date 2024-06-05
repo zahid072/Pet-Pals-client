@@ -8,6 +8,7 @@ import Select from "react-select";
 import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
+import DefaultCard from "../../components/defaultCard/DefaultCard";
 // ____________select options______________________
 const options = [
   { value: "", label: "Select Pet Category" },
@@ -76,7 +77,17 @@ const PetListing = () => {
 
   return (
     <div>
-      <div className="flex md:flex-row flex-col justify-center items-center h-36 w-full border-b-2 border-gray-300 my-5">
+      <div
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("https://png.pngtree.com/background/20230522/original/pngtree-puppy-and-a-kitten-next-to-each-other-picture-image_2696745.jpg")`,
+            }}
+            className="h-[300px] w-full bg-no-repeat bg-cover bg-center flex flex-col gap-5 items-center justify-center text-white"
+          >
+              <div className='z-50'>
+               <h1 className='font-baloo uppercase font-semibold md:text-5xl text-3xl text-center lg:text-6xl text-white '>Pets For Adoptions</h1>
+              </div>
+          </div>
+      <div className="flex md:flex-row flex-col justify-center items-center md:py-7 py-3 w-full border-b-2 border-gray-300 my-5">
         <form onSubmit={handleSearch} className="p-2 flex w-full max-w-md">
           <Input
             onChange={(e) => {
@@ -86,8 +97,8 @@ const PetListing = () => {
             value={defaultValue}
             label="Search"
           />
-          <button className="px-4 py-2 rounded bg-blue-gray-100">
-            <MagnifyingGlassIcon className="h-5 w-5" />
+          <button className="px-4 py-2 rounded bg-deep-orange-500 ">
+            <MagnifyingGlassIcon className="h-5 w-5 text-white" />
           </button>
         </form>
         <div className="max-w-72 w-full">
@@ -106,7 +117,7 @@ const PetListing = () => {
           />
         </div>
       </div>
-      <div>
+      <div className="my-6 ">
         {isDisplay ? (
           <>
             <InfiniteScroll
@@ -115,31 +126,23 @@ const PetListing = () => {
               hasMore={hasNextPage}
               loader={<div>loading..</div>}
             >
-              <div>
+              <div className="grid gap-7 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center max-w-7xl lg:mx-auto mx-2">
                 {allPets &&
                   allPets.map((pet, index) => (
-                    <div
-                      key={index}
-                      className="p-5 rounded border my-2 border-gray-500"
-                    >
-                      <PetDetails pet={pet} />
+                    <div key={index} className="w-full">
+                      <DefaultCard  pet={pet} />
                     </div>
                   ))}
               </div>
             </InfiniteScroll>
           </>
         ) : (
-          <>
+          <div className="grid gap-7 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center max-w-7xl lg:mx-auto mx-2">
             {petListingData.length > 0 &&
               petListingData.map((pet, index) => (
-                <div
-                  key={index}
-                  className="p-5 rounded border my-2 border-gray-500"
-                >
-                  <PetDetails pet={pet} />
-                </div>
+                  <DefaultCard  key={index} pet={pet} />
               ))}
-          </>
+          </div>
         )}
       </div>
     </div>

@@ -15,6 +15,7 @@ const options = [
 ];
 
 const AddAPet = () => {
+  const [err, setErr] = useState("");
   const [petCategory, setPetCategory] = useState(null);
   const [tempPhoto, setTempPhoto] = useState("");
   const [submitLoader, setSubmitLoader] = useState(false);
@@ -36,10 +37,14 @@ const AddAPet = () => {
     const petAge = e.age;
     const location = e.location;
     const shortDescription = e.shortDescription;
+    setErr("")
     const formData = new FormData();
     formData.append("image", image);
     setSubmitLoader(true);
-  
+    if (!editorDescription) {
+      setSubmitLoader(false)
+      return setErr("Long description is required.");
+    }
     try {
       const res = await fetch(
         "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
@@ -244,8 +249,8 @@ const AddAPet = () => {
                 })}
               /> */}
               <Tiptap setEditorDescription={setEditorDescription} />
-              {errors.description && (
-                <p className="text-red-500">{errors.description.message}</p>
+              {err && (
+                <p className="text-red-500">{err}</p>
               )}
             </div>
 
