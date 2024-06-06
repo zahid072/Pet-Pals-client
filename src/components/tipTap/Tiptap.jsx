@@ -101,7 +101,7 @@ const Tiptap = ({ setEditorDescription, editorDescription }) => {
         <LuHeading2 />
       </button>
       </div>
-      <div className="border-b border-r border-l max-h-32 overflow-y-scroll rounded rounded-t-none border-gray-700">
+      <div className="border-b border-r border-l max-h-32 overflow-y-auto rounded rounded-t-none border-gray-700">
         <EditorContent editor={editor} />
       </div>
     </div>

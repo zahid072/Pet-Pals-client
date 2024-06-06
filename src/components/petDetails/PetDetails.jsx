@@ -6,8 +6,10 @@ import React, { useEffect, useState } from "react";
 import "./petDetails.css";
 import { useParams } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import PetAdoption from "../modals/PetAdoption";
 
 const PetDetails = () => {
+  const [petAdoptionModal, setPetAdoptionModal] = useState(false);
   const { id } = useParams();
   const [pet, setPet] = useState({});
   const axiosSecure = useAxiosSecure();
@@ -60,11 +62,24 @@ const PetDetails = () => {
               <h1 className="text-3xl font-semibold py-3 font-baloo uppercase">
                 {pet?.petName}
               </h1>
-              <button className="px-4 py-3 rounded-lg text-white uppercase font-ballo font-medium bg-deep-orange-500 btn-hover border">
-                Adopt
-              </button>
+              {pet?.adopted ? (
+                <button
+                  disabled
+                  className="px-4 py-3 rounded-lg text-white uppercase font-ballo font-medium bg-deep-orange-500 border"
+                >
+                  Adopted
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setPetAdoptionModal(!petAdoptionModal);
+                  }}
+                  className="px-4 py-3 rounded-lg text-white uppercase font-ballo font-medium bg-deep-orange-500 btn-hover border"
+                >
+                  Adopt
+                </button>
+              )}
             </div>
-            
           </div>
           <div className="">
             <h1 className="uppercase py-7 w-full bg-blue-gray-700 text-white px-5 rounded-t text-2xl font-semibold">
@@ -78,6 +93,9 @@ const PetDetails = () => {
           </div>
         </div>
       </div>
+      {petAdoptionModal && (
+        <PetAdoption pet={pet} setPetAdoptionModal={setPetAdoptionModal} />
+      )}
     </div>
   );
 };

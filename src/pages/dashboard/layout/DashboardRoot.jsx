@@ -12,7 +12,7 @@ const DashboardRoot = () => {
   };
   return (
     <div>
-      <div className="flex">
+      <div className="flex relative">
         <div
           className={
             sidebarOpen
