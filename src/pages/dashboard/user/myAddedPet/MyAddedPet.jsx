@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { Avatar, Card,  Typography } from "@material-tailwind/react";
-import { CiMenuKebab } from "react-icons/ci";
 import useAuth from "../../../../Hooks/useAuth";
-import useUsersData from "../../../../Hooks/useUsersData";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa6";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
-import UpdateStatus from "../../../../components/modals/UpdateStatus";
 import PetsUpdate from "../../../../components/modals/PetsUpdate";
 import Swal from "sweetalert2";
 

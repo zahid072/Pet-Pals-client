@@ -7,12 +7,16 @@ const useUsersData = () => {
   const [admin, setAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const email = user?.email
+  ? user?.email
+  : user?.reloadUserInfo?.providerUserInfo[0].email;
   const axiosSecure = useAxiosSecure();
   const { refetch, data: userData = [] } = useQuery({
     queryKey: ["userData"],
     queryFn: async () => {
       const users = await axiosSecure.get("/Users");
-      return users.data;
+      const filter = users.data?.filter(user => user?.email !== email)
+      return filter;
     },
   });
   useEffect(() => {
