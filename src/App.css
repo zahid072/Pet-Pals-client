@@ -80,7 +80,7 @@
     border: var(--s) solid #0000;
     border-radius: calc(var(--r) + var(--s));
     border-bottom-right-radius: 0;
-    background: border-box linear-gradient(45deg,#4a0776,#331a85); 
+    background: border-box linear-gradient(45deg,#203563,#344e6e); 
     -webkit-mask:
       radial-gradient(100% 100% at 100% 0,#0000 99%,#000 102%) 
         100% calc(100% - var(--s))/var(--s) var(--s) no-repeat border-box,

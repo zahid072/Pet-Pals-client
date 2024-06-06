@@ -12,6 +12,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import UpdateStatus from "../../../../components/modals/UpdateStatus";
 import PetsUpdate from "../../../../components/modals/PetsUpdate";
+import Swal from "sweetalert2";
 
 const getPets = async ({ pageParam = 1 }) => {
   const res = await axios.get(
@@ -64,11 +65,28 @@ const AllPets = () => {
   };
 
   const handleDelete = (id) => {
-    axiosSecure.delete(`/pets/${id}`).then((res) => {
-      console.log(res.data);
-      if (res.data.deletedCount) {
-        setModal(0);
-        refetch();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/pets/${id}`).then((res) => {
+          console.log(res.data);
+          if (res.data.deletedCount) {
+            refetch();
+            setModal(0)
+            Swal.fire({
+              title: "Deleted!",
+              text: "Pet has been deleted.",
+              icon: "success"
+            });
+          }
+        });
       }
     });
   };
@@ -253,7 +271,7 @@ const AllPets = () => {
                                       onClick={() => {
                                         handleUpdate(pets);
                                       }}
-                                      className="px-3 flex gap-2 hover:bg-deep-purple-500 items-center rounded border text-nowrap text-white border-white mb-2"
+                                      className="px-3 flex gap-2 hover:bg-cyan-900 items-center rounded border text-nowrap text-white border-white mb-2"
                                     >
                                       {" "}
                                       <FaPen />
@@ -264,7 +282,7 @@ const AllPets = () => {
                                       onClick={() => {
                                         handleDelete(pets?._id);
                                       }}
-                                      className={`px-3 flex gap-2 hover:bg-deep-purple-500 items-center rounded border text-nowrap text-white border-white`}
+                                      className={`px-3 flex gap-2 hover:bg-cyan-900 items-center rounded border text-nowrap text-white border-white`}
                                     >
                                       <FaTrashAlt />
                                       Delete

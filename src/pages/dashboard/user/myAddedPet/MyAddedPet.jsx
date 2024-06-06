@@ -11,20 +11,13 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import UpdateStatus from "../../../../components/modals/UpdateStatus";
 import PetsUpdate from "../../../../components/modals/PetsUpdate";
+import Swal from "sweetalert2";
 
-// const getPets = async ({ pageParam = 1 }) => {
-//   const res = await axios.get(
-//     `http://localhost:5000/pets?page=${pageParam}&limit=10`
-//   );
-//   return { ...res?.data, prevOffset: pageParam };
-// };
+
 const MyAddedPet = () => {
-  const { admin } = useUsersData();
   const { user } = useAuth();
   const [selectedPet, setSelectedPet] = useState({});
-  const [statusModal, setStatusModal] = useState(false);
   const [petUpdateModal, setPetUpdateModal] = useState(false);
-  const [modal, setModal] = useState(0);
   const axiosSecure = useAxiosSecure();
 
   // ----------------------------------
@@ -51,15 +44,7 @@ const MyAddedPet = () => {
     return [...acc, ...page.pets];
   }, []);
 
-  // -----------------------------------------
 
-  const handlePopUp = (e, id) => {
-    e.stopPropagation();
-    setModal(id);
-    if (modal === id) {
-      setModal(0);
-    }
-  };
   // ---------------------------------------------------
   const handleUpdate = (pet) => {
     if (user) {
@@ -69,34 +54,36 @@ const MyAddedPet = () => {
   };
 
   const handleDelete = (id) => {
-    axiosSecure.delete(`/pets/${id}`).then((res) => {
-      console.log(res.data);
-      if (res.data.deletedCount) {
-        setModal(0);
-        refetch();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/pets/${id}`).then((res) => {
+          console.log(res.data);
+          if (res.data.deletedCount) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Pet has been deleted.",
+              icon: "success"
+            });
+          }
+        });
       }
     });
-  };
-  // ---------------------------------------------------
-
-  const handleStatusModal = (pet) => {
-    if (admin) {
-      setSelectedPet(pet);
-      setStatusModal(!statusModal);
-    }
+    
   };
   return (
     <div>
     <h1 className="text-center text-xl font-semibold font-gilda">All Pets</h1>
     <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>
     <div
-      onClick={
-        modal > 0
-          ? () => {
-              setModal(0);
-            }
-          : ""
-      }
       className="bg-white p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow"
     >
       <div>
@@ -168,9 +155,7 @@ const MyAddedPet = () => {
                         className={
                           pets?.adopted
                             ? "bg-blue-gray-50/50"
-                            : `bg-white ${
-                                modal === index + 1 ? "bg-[#c8c8c850]" : ""
-                              }`
+                            : `bg-white`
                         }
                       >
                         <td className="p-4">
@@ -221,61 +206,30 @@ const MyAddedPet = () => {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            <span
-                              onClick={() => {
-                                handleStatusModal(pets);
-                              }}
-                              className={
-                                admin
-                                  ? " hover:bg-blue-gray-100 p-2 rounded cursor-pointer"
-                                  : "p-2 rounded"
-                              }
-                            >
+                            <span>
                               {pets?.adopted ? "Adopted" : "Not Adopted"}
                             </span>
                           </Typography>
                         </td>
                         <td className="p-4">
-                          <div className="relative inline">
+                          <div className="flex gap-3 items-center">
                             <button
-                              onClick={(e) => {
-                                handlePopUp(e, index + 1);
+                              onClick={() => {
+                                handleUpdate(pets);
                               }}
                               className="px-1 py-2 rounded hover:bg-blue-gray-100 text-xl"
                             >
-                              <CiMenuKebab />
+                              <FaPen />
                             </button>
-                            {modal === index + 1 && (
-                              <div className="absolute tooltip-shape w-48 right-[36px] -top-[100px] z-50 ">
-                                <div
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                  }}
-                                  className="p-3"
-                                >
-                                  <button
-                                    onClick={() => {
-                                      handleUpdate(pets);
-                                    }}
-                                    className="px-3 flex gap-2 hover:bg-deep-purple-500 items-center rounded border text-nowrap text-white border-white mb-2"
-                                  >
-                                    {" "}
-                                    <FaPen />
-                                    Update
-                                  </button>
-
-                                  <button
-                                    onClick={() => {
-                                      handleDelete(pets?._id);
-                                    }}
-                                    className={`px-3 flex gap-2 hover:bg-deep-purple-500 items-center rounded border text-nowrap text-white border-white`}
-                                  >
-                                    <FaTrashAlt />
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
-                            )}
+                            <button
+                              onClick={() => {
+                                handleDelete(pets?._id);
+                              }}
+                              className="px-1 py-2 rounded hover:bg-blue-gray-100 text-xl"
+                            >
+                              <FaTrashAlt />
+                            </button>
+                           
                           </div>
                         </td>
                       </tr>
@@ -286,15 +240,6 @@ const MyAddedPet = () => {
           </InfiniteScroll>
         </div>
       </div>
-      {statusModal && (
-        <>
-          <UpdateStatus
-            refetch={refetch}
-            selectedPet={selectedPet}
-            setStatusModal={setStatusModal}
-          />
-        </>
-      )}
       {petUpdateModal && (
         <>
           <PetsUpdate
