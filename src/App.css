@@ -14,76 +14,72 @@
   font-family: balooFont;
   src: url(./font/Baloo-Regular.ttf);
 }
-.font-fredoka{
+.font-fredoka {
   font-family: myFont;
 }
-.font-baloo{
+.font-baloo {
   font-family: balooFont;
 }
 
-
 .loader {
-    width: 100%;
-    height: 4.8px;
-    display: inline-block;
-    position: relative;
-    background: rgba(255, 255, 255, 0.15);
-    overflow: hidden;
-  }
-  .loader::after {
-    content: '';
-    width: 192px;
-    height: 4.8px;
-    background: #1c1cfd;
-    position: absolute;
-    top: 0;
+  width: 100%;
+  height: 4.8px;
+  display: inline-block;
+  position: relative;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+.loader::after {
+  content: "";
+  width: 192px;
+  height: 4.8px;
+  background: #1c1cfd;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite;
+}
+
+@keyframes animloader {
+  0% {
     left: 0;
-    box-sizing: border-box;
-    animation: animloader 1s linear infinite;
+    transform: translateX(-100%);
   }
-  
-  @keyframes animloader {
-    0% {
-      left: 0;
-      transform: translateX(-100%);
-    }
-    100% {
-      left: 100%;
-      transform: translateX(0%);
-    }
+  100% {
+    left: 100%;
+    transform: translateX(0%);
   }
+}
 
-  .categoryHover:hover{
-    box-shadow: 1px 1px 20px black;
-    transition: 0.3s;
-    border: 2px solid white;
-  }
-  .btn-hover:hover{
-    box-shadow: 1px 1px 10px black;
-    transition: 0.3s;
-  } 
-  .delay-03{
-    transition: 0.3s;
-  } 
+.categoryHover:hover {
+  box-shadow: 1px 1px 20px black;
+  transition: 0.3s;
+  border: 2px solid white;
+}
+.btn-hover:hover {
+  box-shadow: 1px 1px 10px black;
+  transition: 0.3s;
+}
+.delay-03 {
+  transition: 0.3s;
+}
 
-  .tooltip-shape {
-    transition: 0.5s;
-    color: #ffffff;
-    font-size: 18px;
-    max-width: 28ch;
-    text-align: center;
-  }
-  .tooltip-shape {
-    
-    --s: 1.5em; /* triangle size */
-    --r: 1em; /* the radius */
-    border: var(--s) solid #0000;
-    border-radius: calc(var(--r) + var(--s));
-    border-bottom-right-radius: 0;
-    background: border-box linear-gradient(45deg,#203563,#344e6e); 
-    -webkit-mask:
-      radial-gradient(100% 100% at 100% 0,#0000 99%,#000 102%) 
-        100% calc(100% - var(--s))/var(--s) var(--s) no-repeat border-box,
-      linear-gradient(#000 0 0) padding-box;
-  }
- 
+.tooltip-shape {
+  transition: 0.5s;
+  color: #ffffff;
+  font-size: 18px;
+  max-width: 28ch;
+  text-align: center;
+}
+.tooltip-shape {
+  --s: 1.5em; /* triangle size */
+  --r: 1em; /* the radius */
+  border: var(--s) solid #0000;
+  border-radius: calc(var(--r) + var(--s));
+  border-bottom-right-radius: 0;
+  background: border-box linear-gradient(45deg, #203563, #344e6e);
+  -webkit-mask: radial-gradient(100% 100% at 100% 0, #0000 99%, #000 102%) 100%
+      calc(100% - var(--s)) / var(--s) var(--s) no-repeat border-box,
+    linear-gradient(#000 0 0) padding-box;
+}

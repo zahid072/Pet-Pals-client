@@ -39,9 +39,9 @@ const UpdateStatus = ({ selectedPet, setStatusModal, refetch }) => {
           <IoClose className="text-black" />
         </button>
         <img
-          className="rounded-full size-24 mx-auto"
+          className="rounded-full size-24 mx-auto border-4 border-blue-500"
           src={selectedPet?.image}
-          alt=""
+          alt={selectedPet?.petName}
         />
         <h1 className="text-center text-2xl font-semibold font-baloo">
           {selectedPet?.petName}

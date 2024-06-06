@@ -21,7 +21,7 @@ const MyAddedPet = () => {
   const axiosSecure = useAxiosSecure();
 
   // ----------------------------------
-
+  
   const getPets = async ({ pageParam = 1 }) => {
     const res = await axios.get(
       `http://localhost:5000/pets/userAdded/${user?.email}?page=${pageParam}&limit=10`

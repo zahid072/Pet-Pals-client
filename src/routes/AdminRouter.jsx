@@ -6,7 +6,7 @@ import { Spinner } from '@material-tailwind/react'
 const AdminRouter = ({children}) => {
     const {admin, loading}= useUsersData()
     if(loading){
-        return <Spinner/>
+        return <Spinner className='size-20'/>
     }
     if(admin){
         return children

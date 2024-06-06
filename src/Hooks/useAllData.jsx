@@ -14,16 +14,17 @@ const useAllData = () => {
   //     return pets.data;
   //   },
   // });
-  const { refetch: petListingRefetch, data: petListingData = [] } = useQuery({
+  const { refetch: petListingRefetch, data: petListingData = [], isLoading } = useQuery({
     queryKey: ["petListingData"],
     queryFn: async () => {
       const pets = await axiosPublic.get(
         `/pets/search?name=${searchTerm?.name}&category=${searchTerm?.category}`
       );
-      return pets.data;
+      const filterPet = pets.data?.filter(pet => pet?.adopted === false)
+      return filterPet;
     },
   });
-  return [petListingData, petListingRefetch];
+  return [petListingData, petListingRefetch, isLoading];
 };
 
 export default useAllData;

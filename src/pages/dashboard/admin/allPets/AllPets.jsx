@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from "react";
-import useAllData from "../../../../Hooks/useAllData";
-import { Avatar, Card, Spinner, Typography } from "@material-tailwind/react";
+import React, { useState } from "react";
+import { Avatar, Card,  Typography } from "@material-tailwind/react";
 import { CiMenuKebab } from "react-icons/ci";
 import useAuth from "../../../../Hooks/useAuth";
 import useUsersData from "../../../../Hooks/useUsersData";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa6";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import UpdateStatus from "../../../../components/modals/UpdateStatus";
 import PetsUpdate from "../../../../components/modals/PetsUpdate";
 import Swal from "sweetalert2";
+import useAllPetsData from "../../../../Hooks/useAllPetsData";
 
-const getPets = async ({ pageParam = 1 }) => {
-  const res = await axios.get(
-    `http://localhost:5000/pets?page=${pageParam}&limit=10`
-  );
-  return { ...res?.data, prevOffset: pageParam };
-};
 
 const AllPets = () => {
   const { admin } = useUsersData();
@@ -29,25 +21,7 @@ const AllPets = () => {
   const [petUpdateModal, setPetUpdateModal] = useState(false);
   const [modal, setModal] = useState(0);
   const axiosSecure = useAxiosSecure();
-
-  // ----------------------------------
-  const { data, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
-    queryKey: ["pets"],
-    queryFn: getPets,
-    getNextPageParam: (lastPage) => {
-      const nextOffset = lastPage.prevOffset + 1;
-      if (nextOffset > Math.ceil(lastPage.petsCount / 10)) {
-        return undefined;
-      }
-      return nextOffset;
-    },
-  });
-  console.log(hasNextPage);
-  const allPets = data?.pages.reduce((acc, page) => {
-    return [...acc, ...page.pets];
-  }, []);
-
-  // -----------------------------------------
+  const [allPets , fetchNextPage, hasNextPage, refetch] = useAllPetsData()
 
   const handlePopUp = (e, id) => {
     e.stopPropagation();
@@ -119,7 +93,6 @@ const AllPets = () => {
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
               loader={<div>loading..</div>}
-              scrollableTarget={null}
             >
               <Card className="h-full w-full overflow-x-auto">
                 <table className="w-full min-w-max table-auto text-left">

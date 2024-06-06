@@ -19,7 +19,7 @@ const options = [
   { value: "Bird", label: "Bird" },
 ];
 
-const PetsUpdate = ({refetch, selectedPet, setPetUpdateModal }) => {
+const PetsUpdate = ({ refetch, selectedPet, setPetUpdateModal }) => {
   const [err, setErr] = useState("");
   const [petCategory, setPetCategory] = useState({
     value: selectedPet?.petCategory,
@@ -71,53 +71,52 @@ const PetsUpdate = ({refetch, selectedPet, setPetUpdateModal }) => {
       return setErr("Long description is required.");
     }
     setSubmitLoader(true);
-    
-      const res = await fetch(
-        "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
 
-      const imgbbData = await res.json();
-
-      const newPet = {
-        petName,
-        image: imgbbData.data?.url ? imgbbData.data?.url : selectedPet?.image,
-        petAge,
-        petCategory: petCategory.value,
-        location,
-        shortDescription,
-        longDescription: editorDescription,
-        timestamp: selectedPet?.timestamp,
-        adopted: selectedPet?.adopted,
-        email: selectedPet?.email,
-      };
-
-      if (imgbbData.data?.url || selectedPet.image) {
-        axiosSecure
-          .patch(`/pets/${selectedPet?._id}`, newPet)
-          .then((res) => {
-            if (res.data.modifiedCount) {
-              setSubmitLoader(false);
-              setTempPhoto("");
-              setEditorDescription("");
-              reset(defaultValues);
-              setPetUpdateModal(false);
-              refetch()
-              toast.success("Pet Updated Successfully.");
-            }
-          })
-          .catch((err) => {
-            setSubmitLoader(false);
-            toast.error(`Error saving pet: ${err.message}`);
-          });
+    const res = await fetch(
+      "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
+      {
+        method: "POST",
+        body: formData,
       }
-    
+    );
+
+    const imgbbData = await res.json();
+
+    const newPet = {
+      petName,
+      image: imgbbData.data?.url ? imgbbData.data?.url : selectedPet?.image,
+      petAge,
+      petCategory: petCategory.value,
+      location,
+      shortDescription,
+      longDescription: editorDescription,
+      timestamp: selectedPet?.timestamp,
+      adopted: selectedPet?.adopted,
+      email: selectedPet?.email,
+    };
+
+    if (imgbbData.data?.url || selectedPet.image) {
+      axiosSecure
+        .patch(`/pets/${selectedPet?._id}`, newPet)
+        .then((res) => {
+          if (res.data.modifiedCount) {
+            setSubmitLoader(false);
+            setTempPhoto("");
+            setEditorDescription("");
+            reset(defaultValues);
+            setPetUpdateModal(false);
+            refetch();
+            toast.success("Pet Updated Successfully.");
+          }
+        })
+        .catch((err) => {
+          setSubmitLoader(false);
+          toast.error(`Error saving pet: ${err.message}`);
+        });
+    }
   };
   return (
-    <div className="bg-[#e5e3e26d] lg:w-1/2 md:w-4/5 w-[95%] backdrop-blur-md z-50 rounded shadow-lg fixed left-1/2 -translate-x-1/2 top-[10%]">
+    <div className="bg-[#e5e3e26d] lg:w-1/2 md:w-4/5 w-[95%] backdrop-blur-md z-50 rounded shadow-lg absolute left-1/2 -translate-x-1/2 top-[10%]">
       <div className="bg-[#e5e3e2] relative p-6 rounded-lg  w-full z-10 shadow ">
         <button
           onClick={() => {

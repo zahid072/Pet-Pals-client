@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import useAllData from "../../Hooks/useAllData";
-import PetDetails from "../../components/petDetails/PetDetails";
 import { Input } from "@material-tailwind/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import useAuth from "../../Hooks/useAuth";
 import Select from "react-select";
-import axios from "axios";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import DefaultCard from "../../components/defaultCard/DefaultCard";
+import useAllPetsData from "../../Hooks/useAllPetsData";
+import CardSkeleton from "../../components/skeletonLoader/CardSkeleton";
+import { all } from "axios";
 // ____________select options______________________
 const options = [
   { value: "", label: "Select Pet Category" },
@@ -18,39 +18,23 @@ const options = [
   { value: "Fish", label: "Fish" },
   { value: "Bird", label: "Bird" },
 ];
-// _____________________________________________
-const getPets = async ({ pageParam = 1 }) => {
-  const res = await axios.get(
-    `http://localhost:5000/pets/listing?page=${pageParam}&limit=10`
-  );
-  return { ...res?.data, prevOffset: pageParam };
-};
 
 const PetListing = () => {
-  const [petListingData, PetListingRefetch] = useAllData();
+  const [petListingData, PetListingRefetch, isLoading] = useAllData();
   const [petCategory, setPetCategory] = useState(null);
   const [isDisplay, setIsDisplay] = useState(true);
   const [defaultValue, setDefaultValue] = useState("");
   const { setSearchTerm } = useAuth();
+  const [filteredPets, setFilteredPets] = useState([]);
+  const [allPets, fetchNextPage, hasNextPage, refetch, allPetsIsLoading] =
+    useAllPetsData();
 
-  // ______set infintie scroll with tanstack query______
-
-  const { data, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
-    queryKey: ["listingPets"],
-    queryFn: getPets,
-    getNextPageParam: (lastPage) => {
-      const nextOffset = lastPage.prevOffset + 1;
-      if (nextOffset > Math.ceil(lastPage.petsCount / 10)) {
-        return undefined;
-      }
-      return nextOffset;
-    },
-  });
-  const allPets = data?.pages.reduce((acc, page) => {
-    return [...acc, ...page.pets];
-  }, []);
-  console.log(allPets);
-  //_______________________________
+  useEffect(() => {
+    const filterPets = allPets?.filter((pet) => pet.adopted === false);
+    if (filterPets) {
+      setFilteredPets(filterPets);
+    }
+  }, [allPets]);
 
   // :::::::::::::::::::::::::::::::::::::::::::::::::::
   const handleChange = (selectedValue) => {
@@ -78,15 +62,17 @@ const PetListing = () => {
   return (
     <div>
       <div
-            style={{
-              backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("https://png.pngtree.com/background/20230522/original/pngtree-puppy-and-a-kitten-next-to-each-other-picture-image_2696745.jpg")`,
-            }}
-            className="h-[300px] w-full bg-no-repeat bg-cover bg-center flex flex-col gap-5 items-center justify-center text-white"
-          >
-              <div className='z-50'>
-               <h1 className='font-baloo uppercase font-semibold md:text-5xl text-3xl text-center lg:text-6xl text-white '>Pets For Adoptions</h1>
-              </div>
-          </div>
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("https://png.pngtree.com/background/20230522/original/pngtree-puppy-and-a-kitten-next-to-each-other-picture-image_2696745.jpg")`,
+        }}
+        className="h-[300px] w-full bg-no-repeat bg-cover bg-center flex flex-col gap-5 items-center justify-center text-white"
+      >
+        <div className="z-50">
+          <h1 className="font-baloo uppercase font-semibold md:text-5xl text-3xl text-center lg:text-6xl text-white ">
+            Pets For Adoptions
+          </h1>
+        </div>
+      </div>
       <div className="flex md:flex-row flex-col justify-center items-center md:py-7 py-3 w-full border-b-2 border-gray-300 my-5">
         <form onSubmit={handleSearch} className="p-2 flex w-full max-w-md">
           <Input
@@ -121,28 +107,42 @@ const PetListing = () => {
         {isDisplay ? (
           <>
             <InfiniteScroll
-              dataLength={allPets ? allPets.length : 0}
+              dataLength={filteredPets ? filteredPets.length : 0}
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
               loader={<div>loading..</div>}
             >
-              <div className="grid gap-7 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center max-w-7xl lg:mx-auto mx-2">
-                {allPets &&
-                  allPets.map((pet, index) => (
-                    <div key={index} className="w-full">
-                      <DefaultCard  pet={pet} />
-                    </div>
-                  ))}
-              </div>
+              {allPetsIsLoading ? (
+                <CardSkeleton />
+              ) : (
+                <div className="grid gap-7 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center max-w-7xl lg:mx-auto mx-2">
+                  {filteredPets &&
+                    filteredPets.map((pet, index) => (
+                      <div key={index} className="w-full">
+                        <DefaultCard pet={pet} />
+                      </div>
+                    ))}
+                </div>
+              )}
             </InfiniteScroll>
           </>
         ) : (
-          <div className="grid gap-7 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center max-w-7xl lg:mx-auto mx-2">
-            {petListingData.length > 0 &&
-              petListingData.map((pet, index) => (
-                  <DefaultCard  key={index} pet={pet} />
-              ))}
-          </div>
+          <>
+            {isLoading ? (
+              <CardSkeleton />
+            ) : petListingData.length === 0 ? (
+              <p className="text-xl text-red-400 font-semibold text-center py-5">
+                No Pets Found.
+              </p>
+            ) : (
+              <div className="grid gap-7 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center max-w-7xl lg:mx-auto mx-2">
+                {petListingData.length > 0 &&
+                  petListingData.map((pet, index) => (
+                    <DefaultCard key={index} pet={pet} />
+                  ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
