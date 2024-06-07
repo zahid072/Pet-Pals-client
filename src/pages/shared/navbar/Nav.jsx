@@ -5,6 +5,7 @@ import {
   Typography,
   IconButton,
   Spinner,
+  Collapse,
 } from "@material-tailwind/react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
@@ -122,8 +123,6 @@ const Nav = () => {
         <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 lg:px-8">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
-              as="a"
-              href="#"
               className="mr-4 cursor-pointer font-semibold text-2xl"
             >
               <Link to={"/"}> <img className="md:h-16 h-10" src="https://i.ibb.co/2Pxqzqc/OIG1-bygu-CHc-CZay-YDa-Ko7jcp-prev-u.png" alt="" /></Link>
@@ -207,13 +206,13 @@ const Nav = () => {
               </IconButton>
             </div>
           </div>
-          <MobileNav open={openNav}>
+          <Collapse open={openNav}>
             {navList}
             <div className="flex items-center gap-x-1">
               {!user ? (
                 <Link to={"/signIn"}>
                   {" "}
-                  <button className="bg-[#ADD8E6] lg:hidden px-3 py-2 font-semibold rounded">
+                  <button className="bg-[#e1613a] lg:hidden px-3 py-2 btn-hover font-semibold rounded">
                     <span>Sign in</span>
                   </button>
                 </Link>
@@ -221,10 +220,11 @@ const Nav = () => {
                 ""
               )}
             </div>
-          </MobileNav>
+          </Collapse>
         </Navbar>
       </div>
     </div>
+    
   );
 };
 

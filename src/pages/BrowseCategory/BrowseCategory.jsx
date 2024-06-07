@@ -9,7 +9,8 @@ const BrowseCategory = () => {
   const axiosPublic = useAxiosPublic();
   useEffect(() => {
     axiosPublic.get(`/pets/category/${petName}`).then((res) => {
-      setCategoryData(res.data);
+      const filter = res.data?.filter(pet => pet?.adopted === false)
+      setCategoryData(filter);
     });
   }, [petName]);
   return (

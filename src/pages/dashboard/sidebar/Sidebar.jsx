@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { FaDonate, FaHome, FaPaw, FaUsers } from "react-icons/fa";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { IoLogoOctocat, IoMdClose } from "react-icons/io";
@@ -9,11 +8,13 @@ import {
 } from "react-icons/md";
 import { IoPawOutline } from "react-icons/io5";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
-import useUsersData from "../../../Hooks/useUsersData";
+import useAuth from "../../../Hooks/useAuth";
+import useAdmin from "../../../Hooks/useAdmin";
 
 const Sidebar = ({ setSidebarOpen }) => {
   const { pathname } = useLocation();
-  const {admin} = useUsersData();
+  const { admin } = useAdmin();
+  const {logOut}= useAuth()
 
   return (
     <div className="sticky top-0">
@@ -467,6 +468,14 @@ const Sidebar = ({ setSidebarOpen }) => {
                 <MdRoundaboutLeft />
                 About
               </Link>
+            </li>
+            <li>
+              <button
+                onClick={()=>{logOut()}}
+                className=" bg-deep-orange-500 text-white btn-hover px-3 py-2 font-semibold rounded text-nowrap"
+              >
+                <span>Sign Out</span>
+              </button>
             </li>
           </ul>
         </div>

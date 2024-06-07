@@ -57,6 +57,7 @@ const SignUp = () => {
           setTempPhoto("");
           reset();
           toast.success("Account successfully created.");
+          navigate(location?.state ? location.state : "/");
         })
         .catch((err) => {
           if (err.message === "Firebase: Error (auth/email-already-in-use).") {

@@ -1,14 +1,16 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useAxiosPublic from "./useAxiosPublic";
 
 
+const useAllPetsData = () => {
+  const axiosPublic = useAxiosPublic()
+  
 const getPets = async ({ pageParam = 1 }) => {
-  const res = await axios.get(
-    `http://localhost:5000/pets?page=${pageParam}&limit=10`
+  const res = await axiosPublic.get(
+    `/pets?page=${pageParam}&limit=10`
   );
   return { ...res?.data, prevOffset: pageParam };
 };
-const useAllPetsData = () => {
   const { data, fetchNextPage, hasNextPage, refetch, isLoading:allPetsIsLoading } = useInfiniteQuery({
     queryKey: ["pets"],
     queryFn: getPets,
@@ -20,7 +22,6 @@ const useAllPetsData = () => {
       return nextOffset;
     },
   });
-  console.log(hasNextPage);
   const allPets = data?.pages.reduce((acc, page) => {
     return [...acc, ...page.pets];
   }, []);

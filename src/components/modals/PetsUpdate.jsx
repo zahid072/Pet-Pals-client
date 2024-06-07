@@ -73,7 +73,7 @@ const PetsUpdate = ({ refetch, selectedPet, setPetUpdateModal }) => {
     setSubmitLoader(true);
 
     const res = await fetch(
-      "https://api.imgbb.com/1/upload?key=f2486eb7f065ef91f753ffa00a2bae90",
+      "https://api.imgbb.com/1/upload?key="+import.meta.env.VITE_IMGBB_KEY,
       {
         method: "POST",
         body: formData,

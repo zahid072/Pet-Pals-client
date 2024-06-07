@@ -39,6 +39,7 @@ const SignIn = () => {
         setSubmitLoader(false);
         reset();
         toast.success("Login successful.");
+        navigate(location?.state ? location.state : "/");
       })
       .catch((err) => {
         if (err.message === "Firebase: Error (auth/invalid-credential).") {
@@ -56,7 +57,7 @@ const SignIn = () => {
         role: "user",
       };
       toast.success("Login successful.");
-      axiosSecure.post("/users", newUser).then((res) => {});
+      axiosSecure.post("/users", newUser).then((res) => {navigate(location?.state ? location.state : "/");});
     });
   };
   const handleGitHubSignIn = () => {};

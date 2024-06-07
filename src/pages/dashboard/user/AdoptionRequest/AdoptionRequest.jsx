@@ -149,7 +149,7 @@ const AdoptionRequest = () => {
                 <tbody>
                   {requestData &&
                     requestData.map((pet, index) => (
-                      <tr key={index} className="even:bg-blue-gray-50/50">
+                      <tr key={index} className={pet?.status === "accepted"? "bg-blue-gray-50/50": ""}>
                         <td className="p-4">
                           <Typography
                             variant="small"
@@ -200,13 +200,15 @@ const AdoptionRequest = () => {
                           </Typography>
                         </td>
                         <td className="p-4">
+                          <Tooltip className={pet?.address.length > 15? "": "bg-transparent"} content={pet?.address.length > 15? pet?.address: ""}>
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {pet?.address}
+                            {pet?.address.length > 15? pet?.address.slice(0, 15)+`...`: pet?.address}
                           </Typography>
+                          </Tooltip>
                         </td>
                         <td className="p-4">
                           <Typography

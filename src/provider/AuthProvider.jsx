@@ -7,15 +7,18 @@ import {
   updateProfile,
   GoogleAuthProvider,
 } from "firebase/auth";
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.config";
 import { GithubAuthProvider } from "firebase/auth/web-extension";
+import axios from "axios";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
+  const axiosPublic = useAxiosPublic();
   const [user, setUser] = useState(null);
-  const [searchTerm, setSearchTerm] = useState({name:"", category:""});
+  const [searchTerm, setSearchTerm] = useState({ name: "", category: "" });
   const googleProvider = new GoogleAuthProvider();
   const [navLoader, setNavLoader] = useState(false);
   const gitHubProvider = new GithubAuthProvider();
@@ -58,18 +61,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    setNavLoader(true);
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoader(false);
-      setNavLoader(false);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
   const authInfo = {
     user,
     loader,
@@ -83,6 +74,33 @@ const AuthProvider = ({ children }) => {
     setSearchTerm,
     searchTerm,
   };
+
+  useEffect(() => {
+    setNavLoader(true);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoader(false);
+      setNavLoader(false);
+
+      const email = currentUser?.email
+        ? currentUser?.email
+        : currentUser?.reloadUserInfo?.providerUserInfo[0].email;
+
+      if (currentUser) {
+        axiosPublic.post("/jwt", { email }).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+          }
+        });
+      } else {
+        localStorage.removeItem("access-token");
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );

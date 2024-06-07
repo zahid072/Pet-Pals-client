@@ -4,24 +4,43 @@ import useUsersData from "../../../../Hooks/useUsersData";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
+import useAdmin from "../../../../Hooks/useAdmin";
 
 const AllUser = () => {
-  const { userData, admin, refetch } = useUsersData();
+  const { userData, refetch } = useUsersData();
+  const { admin } = useAdmin();
   const axiosSecure = useAxiosSecure();
-  console.log(userData);
   const handleUpdateAdmin = (user) => {
     if (user?.role === "user" && admin) {
-      axiosSecure
-        .patch(`/users/${user?._id}`, { role: "admin" })
-        .then((res) => {
-          if (res.data.modifiedCount) {
-            refetch();
-          }
-        });
+      Swal.fire({
+        title: "Are you sure?",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Confirm",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure
+            .patch(`/users/${user?._id}`, { role: "admin" })
+            .then((res) => {
+              if (res.data.modifiedCount) {
+                refetch();
+              }
+            });
+        }
+      });
     } else if (user?.role === "admin" && admin) {
-      axiosSecure.patch(`/users/${user?._id}`, { role: "user" }).then((res) => {
-        if (res.data.modifiedCount) {
-          refetch();
+      Swal.fire({
+        title: "Are you sure?",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Confirm",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure
+            .patch(`/users/${user?._id}`, { role: "user" })
+            .then((res) => {
+              if (res.data.modifiedCount) {
+                refetch();
+              }
+            });
         }
       });
     }
