@@ -83,6 +83,8 @@ const CheckoutForm = ({
       if (paymentIntent.status === "succeeded") {
         const newPayment = {
           user: email,
+          image: campaign?.image,
+          petName:campaign?.petName,
           ownerEmail: campaign?.email,
           transactionId: paymentIntent.id,
           amount,
