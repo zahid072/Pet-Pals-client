@@ -5,10 +5,10 @@ import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 const SignUp = () => {
-  const axiosSecure = useAxiosSecure()
+  const axiosPublic = useAxiosPublic()
   const [error, setError] = useState({});
   const [tempPhoto, setTempPhoto] = useState("");
   const [showPass, setShowPass] = useState(false);
@@ -71,7 +71,7 @@ const SignUp = () => {
           }
         });
       const newUser = { name, email, role: "user" };
-      axiosSecure.post("/users", newUser).then((res) => {});
+      axiosPublic.post("/users", newUser).then((res) => {});
     }
   };
 

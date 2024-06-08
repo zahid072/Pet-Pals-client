@@ -1,11 +1,15 @@
-import { Avatar, Card, Tooltip, Typography } from "@material-tailwind/react";
+import { Card, Tooltip, Typography } from "@material-tailwind/react";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useAuth from "../../../../Hooks/useAuth";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { FaPen } from "react-icons/fa";
+import PaymentHistory from "../../../../components/modals/PaymentHistory";
 
 const MyDonationCampaign = () => {
   const [requestData, setRequestData] = useState([]);
+  const [campaignId, setCampaignId] = useState("");
+  const [paymentHistoryModal, setPaymentHistoryModal] = useState(false);
   const [refetch, setRefetch] = useState(false);
   const { user } = useAuth();
   const email = user?.email
@@ -25,31 +29,28 @@ const MyDonationCampaign = () => {
       .patch(`/pets/status/${petId}`, { adopted: true })
       .then((res) => {
         if (res.data.modifiedCount) {
-          axiosSecure
-            .patch(`/adoptionRequest/status/${id}`, { status: "accepted" })
-            .then((res) => {
-              if (res.data.modifiedCount) {
-                setRefetch(true);
-              }
-            });
+          axiosSecure.patch(`//${id}`, { status: "accepted" }).then((res) => {
+            if (res.data.modifiedCount) {
+              setRefetch(true);
+            }
+          });
         }
       });
   };
 
   // --------------------------------------
-  const handleDelete = (id) => {
+  const handlePause = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       cancelButtonText: "No",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Cancel it!",
+      confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/adoptionRequest/${id}`).then((res) => {
+        axiosSecure.patch(`//${id}`).then((res) => {
           if (res.data.deletedCount) {
             setRefetch(true);
             Swal.fire({
@@ -82,15 +83,6 @@ const MyDonationCampaign = () => {
                         color="blue-gray"
                         className="font-normal leading-none opacity-70"
                       >
-                        Pet Image
-                      </Typography>
-                    </th>
-                    <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal leading-none opacity-70"
-                      >
                         Pet Name
                       </Typography>
                     </th>
@@ -100,7 +92,7 @@ const MyDonationCampaign = () => {
                         color="blue-gray"
                         className="font-normal leading-none opacity-70"
                       >
-                        User
+                        Max Donation
                       </Typography>
                     </th>
                     <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
@@ -109,7 +101,7 @@ const MyDonationCampaign = () => {
                         color="blue-gray"
                         className="font-normal leading-none opacity-70"
                       >
-                        Number
+                        Progress
                       </Typography>
                     </th>
                     <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
@@ -118,7 +110,7 @@ const MyDonationCampaign = () => {
                         color="blue-gray"
                         className="font-normal leading-none opacity-70"
                       >
-                        Address
+                        Donators
                       </Typography>
                     </th>
                     <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
@@ -135,24 +127,7 @@ const MyDonationCampaign = () => {
                 <tbody>
                   {requestData &&
                     requestData.map((campaign, index) => (
-                      <tr
-                        key={index}
-                        className={ "bg-blue-gray-50/50"
-                        }
-                      >
-                        <td className="p-4">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-semibold"
-                          >
-                            <Avatar
-                              src={campaign?.image}
-                              alt={campaign?.petName}
-                              className="border mx-auto size-12 border-blue-gray-300 bg-blue-gray-50/50 object-contain p-1"
-                            />
-                          </Typography>
-                        </td>
+                      <tr key={index} className={"bg-blue-gray-50/50"}>
                         <td className="p-4">
                           <Typography
                             variant="small"
@@ -163,68 +138,77 @@ const MyDonationCampaign = () => {
                           </Typography>
                         </td>
                         <td className="p-4">
-                          <div className="flex flex-col">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              hhh
-                            </Typography>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal opacity-70"
-                            >
-                              gh
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className="p-4">
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal"
                           >
-                            bgh
+                            ${campaign?.maxAmount}
                           </Typography>
                         </td>
                         <td className="p-4">
-                          <Tooltip
-                           
-                            content={""
-                            }
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal opacity-70"
                           >
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              gf
-                            </Typography>
-                          </Tooltip>
+                            <button>progress</button>
+                          </Typography>
                         </td>
                         <td className="p-4">
                           <Typography
-                            as="a"
-                            href="#"
                             variant="small"
                             color="blue-gray"
-                            className="font-medium"
+                            className="font-normal opacity-70"
                           >
                             <button
                               onClick={() => {
-                                handleUpdate(campaign?._id);
+                                setPaymentHistoryModal(!paymentHistoryModal);
+                                setCampaignId(campaign?._id)
                               }}
-                              className="px-2 py-1 rounded bg-green-400 text-white"
-                            > </button>
+                              className="px-2 py-1 rounded bg-blue-gray-100 hover:bg-blue-gray-200"
+                            >
+                              View Donator
+                            </button>
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-medium flex items-center gap-3"
+                          >
+                            <Tooltip content="Update">
+                              <button
+                                onClick={() => {
+                                  handleUpdate(campaign?._id);
+                                }}
+                                className="px-4 py-2 rounded bg-green-400 text-white"
+                              >
+                                {" "}
+                                <FaPen />
+                              </button>
+                            </Tooltip>
 
-                            <button
-                              onClick={() => {
-                                handleDelete(campaign?._id);
-                              }}
-                              className="px-2 mr-2 py-1 rounded bg-red-400 text-white"
-                            ></button>
+                            {campaign?.pauseStatus ? (
+                              <button
+                                onClick={() => {
+                                  handlePause(campaign?._id);
+                                }}
+                                className="px-2 mr-2 py-1 rounded bg-deep-orange-400 text-white"
+                              >
+                                UnPause
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  handlePause(campaign?._id);
+                                }}
+                                className="px-2 mr-2 py-1 rounded bg-deep-orange-400 text-white"
+                              >
+                                Pause
+                              </button>
+                            )}
                           </Typography>
                         </td>
                       </tr>
@@ -235,6 +219,12 @@ const MyDonationCampaign = () => {
           </div>
         </div>
       </div>
+      {paymentHistoryModal && (
+        <PaymentHistory
+          campaignId={campaignId}
+          setPaymentHistoryModal={setPaymentHistoryModal}
+        />
+      )}
     </div>
   );
 };

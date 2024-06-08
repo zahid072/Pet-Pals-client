@@ -116,7 +116,7 @@ const PetsUpdate = ({ refetch, selectedPet, setPetUpdateModal }) => {
     }
   };
   return (
-    <div className="bg-[#22dcea6f] md:h-auto h-[600px] overflow-y-auto lg:w-1/2 md:w-4/5 w-[95%] backdrop-blur-md z-50 rounded shadow-lg fixed left-1/2 -translate-x-1/2 lg:top-5 top-2">
+    <div className="bg-[#22dcea6f] z-[999] md:h-auto h-[600px] overflow-y-auto lg:w-1/2 md:w-4/5 w-[95%] backdrop-blur-md rounded shadow-lg fixed left-1/2 -translate-x-1/2 lg:top-5 top-2">
       <div className="bg-[#e786405e] relative p-6 rounded-lg w-full z-10 shadow ">
         <button
           onClick={() => {

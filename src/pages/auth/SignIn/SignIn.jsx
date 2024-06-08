@@ -6,15 +6,14 @@ import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import getToken from "../../../utils/localStorage";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 const SignIn = () => {
   const [error, setError] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [submitLoader, setSubmitLoader] = useState(false);
   const { signInUsers, signInWithGoogle } = useAuth();
-  const axiosSecure = useAxiosSecure()
+  const axiosPublic = useAxiosPublic()
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,13 +39,12 @@ const SignIn = () => {
         setSubmitLoader(false);
         reset();
         toast.success("Login successful.");
-        const token = getToken()
-
           navigate(location?.state ? location.state : "/");
        
       })
       .catch((err) => {
         if (err.message === "Firebase: Error (auth/invalid-credential).") {
+          setSubmitLoader(false)
           setError("Email or password invalid");
         }
       });
@@ -61,7 +59,7 @@ const SignIn = () => {
         role: "user",
       };
       toast.success("Login successful.");
-      axiosSecure.post("/users", newUser).then((res) => { 
+      axiosPublic.post("/users", newUser).then((res) => { 
         navigate(location?.state ? location.state : "/");});
     });
   };
