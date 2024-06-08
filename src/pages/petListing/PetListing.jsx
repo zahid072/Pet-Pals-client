@@ -8,7 +8,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import DefaultCard from "../../components/defaultCard/DefaultCard";
 import useAllPetsData from "../../Hooks/useAllPetsData";
 import CardSkeleton from "../../components/skeletonLoader/CardSkeleton";
-import { all } from "axios";
 // ____________select options______________________
 const options = [
   { value: "", label: "Select Pet Category" },
@@ -110,7 +109,7 @@ const PetListing = () => {
               dataLength={filteredPets ? filteredPets.length : 0}
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
-              loader={<div>loading..</div>}
+              loader={<div class="loader-infinite"></div>}
             >
               {allPetsIsLoading ? (
                 <CardSkeleton />

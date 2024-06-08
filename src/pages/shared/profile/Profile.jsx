@@ -10,7 +10,7 @@ const Profile = ({ setIsProfile }) => {
     logOut();
   };
   return (
-    <div className="bg-white border-2 p-5 rounded absolute top-14 md:-left-48 -left-36  shadow-xl">
+    <div className="bg-white border-2 p-5 rounded absolute top-14 md:-left-64 -left-40  shadow-xl">
       <div className="w-full my-4 flex items-center justify-center flex-col gap-3">
         <Avatar
           src={user?.photoURL}

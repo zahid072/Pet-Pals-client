@@ -2,7 +2,7 @@ import Select from "react-select";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import useUsersData from "../../Hooks/useUsersData";
+import useAdmin from "../../Hooks/useAdmin";
 
 const options = [
   { value: true, label: "Adopted" },
@@ -12,7 +12,7 @@ const options = [
 const UpdateStatus = ({ selectedPet, setStatusModal, refetch }) => {
   const [petStatus, setPetStatus] = useState(null);
   const axiosSecure = useAxiosSecure();
-  const { admin } = useUsersData();
+  const { admin } = useAdmin();
 
   const handleStatusUpdate = (e) => {
     e.preventDefault();

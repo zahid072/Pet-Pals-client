@@ -16,13 +16,15 @@ const MyAddedPet = () => {
   const [selectedPet, setSelectedPet] = useState({});
   const [petUpdateModal, setPetUpdateModal] = useState(false);
   const axiosSecure = useAxiosSecure();
-  const axiosPublic = useAxiosPublic()
+  const email = user?.email
+    ? user?.email
+    : user?.reloadUserInfo?.providerUserInfo[0].email;
 
   // ----------------------------------
 
   const getPets = async ({ pageParam = 1 }) => {
-    const res = await axiosPublic.get(
-      `/pets/userAdded/${user?.email}?page=${pageParam}&limit=10`
+    const res = await axiosSecure.get(
+      `/pets/userAdded/${email}?page=${pageParam}&limit=10`
     );
     return { ...res?.data, prevOffset: pageParam };
   };
@@ -76,7 +78,7 @@ const MyAddedPet = () => {
   };
   return (
     <div>
-      <h1 className="text-center text-xl font-semibold font-gilda">All Pets</h1>
+      <h1 className="text-center text-3xl font-semibold font-baloo uppercase">My Pets</h1>
       <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>
       <div className="bg-white p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow">
         <div>

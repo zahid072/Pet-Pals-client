@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Avatar, Card,  Typography } from "@material-tailwind/react";
+import { Avatar, Card, Typography } from "@material-tailwind/react";
 import { CiMenuKebab } from "react-icons/ci";
 import useAuth from "../../../../Hooks/useAuth";
-import useUsersData from "../../../../Hooks/useUsersData";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa6";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -11,17 +10,17 @@ import UpdateStatus from "../../../../components/modals/UpdateStatus";
 import PetsUpdate from "../../../../components/modals/PetsUpdate";
 import Swal from "sweetalert2";
 import useAllPetsData from "../../../../Hooks/useAllPetsData";
-
+import useAdmin from "../../../../Hooks/useAdmin";
 
 const AllPets = () => {
-  const { admin } = useUsersData();
+  const { admin } = useAdmin();
   const { user } = useAuth();
   const [selectedPet, setSelectedPet] = useState({});
   const [statusModal, setStatusModal] = useState(false);
   const [petUpdateModal, setPetUpdateModal] = useState(false);
   const [modal, setModal] = useState(0);
   const axiosSecure = useAxiosSecure();
-  const [allPets , fetchNextPage, hasNextPage, refetch] = useAllPetsData()
+  const [allPets, fetchNextPage, hasNextPage, refetch] = useAllPetsData();
 
   const handlePopUp = (e, id) => {
     e.stopPropagation();
@@ -46,18 +45,18 @@ const AllPets = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete it!"
+      confirmButtonText: "Delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/pets/${id}`).then((res) => {
           console.log(res.data);
           if (res.data.deletedCount) {
             refetch();
-            setModal(0)
+            setModal(0);
             Swal.fire({
               title: "Deleted!",
               text: "Pet has been deleted.",
-              icon: "success"
+              icon: "success",
             });
           }
         });
@@ -74,7 +73,7 @@ const AllPets = () => {
   };
   return (
     <div>
-      <h1 className="text-center text-xl font-semibold font-gilda">All Pets</h1>
+      <h1 className="text-center text-3xl font-semibold font-baloo uppercase">All Pets</h1>
       <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>
       <div
         onClick={
@@ -87,12 +86,12 @@ const AllPets = () => {
         className="bg-white p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow"
       >
         <div>
-          <div className="">
+          <div >
             <InfiniteScroll
               dataLength={allPets ? allPets.length : 0}
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
-              loader={<div>loading..</div>}
+              loader={<div class="loader-infinite"></div>}
             >
               <Card className="h-full w-full overflow-x-auto">
                 <table className="w-full min-w-max table-auto text-left">

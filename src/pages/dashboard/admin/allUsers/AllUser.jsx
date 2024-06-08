@@ -71,7 +71,7 @@ const AllUser = () => {
   };
   return (
     <div>
-      <h1 className="text-center text-xl font-semibold font-gilda">
+      <h1 className="text-center text-3xl font-semibold font-baloo uppercase">
         All Users
       </h1>
       <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>

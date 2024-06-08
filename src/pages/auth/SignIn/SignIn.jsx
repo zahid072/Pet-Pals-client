@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import getToken from "../../../utils/localStorage";
 
 const SignIn = () => {
   const [error, setError] = useState("");
@@ -39,7 +40,10 @@ const SignIn = () => {
         setSubmitLoader(false);
         reset();
         toast.success("Login successful.");
-        navigate(location?.state ? location.state : "/");
+        const token = getToken()
+
+          navigate(location?.state ? location.state : "/");
+       
       })
       .catch((err) => {
         if (err.message === "Firebase: Error (auth/invalid-credential).") {
@@ -57,7 +61,8 @@ const SignIn = () => {
         role: "user",
       };
       toast.success("Login successful.");
-      axiosSecure.post("/users", newUser).then((res) => {navigate(location?.state ? location.state : "/");});
+      axiosSecure.post("/users", newUser).then((res) => { 
+        navigate(location?.state ? location.state : "/");});
     });
   };
   const handleGitHubSignIn = () => {};

@@ -269,7 +269,7 @@ const PetsUpdate = ({ refetch, selectedPet, setPetUpdateModal }) => {
                 type="submit"
                 className="px-4 py-3 rounded-lg border-2 text-white uppercase bg-deep-orange-500 btn-hover"
               >
-                Add Pet
+                Update Pet
               </button>
             </div>
           </form>

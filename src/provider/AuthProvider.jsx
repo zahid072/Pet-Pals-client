@@ -82,18 +82,17 @@ const AuthProvider = ({ children }) => {
       setLoader(false);
       setNavLoader(false);
 
-      const email = currentUser?.email
+      if (currentUser) {
+        const email = currentUser?.email
         ? currentUser?.email
         : currentUser?.reloadUserInfo?.providerUserInfo[0].email;
-
-      if (currentUser) {
         axiosPublic.post("/jwt", { email }).then((res) => {
           if (res.data.token) {
             localStorage.setItem("access-token", res.data.token);
           }
         });
       } else {
-        localStorage.removeItem("access-token");
+        localStorage.removeItem('access-token')
       }
     });
     return () => {

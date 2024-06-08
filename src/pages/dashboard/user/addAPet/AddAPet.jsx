@@ -21,6 +21,9 @@ const AddAPet = () => {
   const [submitLoader, setSubmitLoader] = useState(false);
   const axiosSecure = useAxiosSecure();
   const {user} = useAuth()
+  const email = user?.email
+  ? user?.email
+  : user?.reloadUserInfo?.providerUserInfo[0].email;
 
   const [editorDescription, setEditorDescription] = useState("");
   console.log(editorDescription);
@@ -55,14 +58,12 @@ const AddAPet = () => {
       );
   
       if (!res.ok) {
-        // Handle HTTP errors
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
   
       const imgbbData = await res.json();
   
       if (!imgbbData.success) {
-        // Handle API-specific errors
         throw new Error(imgbbData.error.message);
       }
   
@@ -76,7 +77,7 @@ const AddAPet = () => {
         longDescription: editorDescription,
         timestamp: new Date().toISOString(),
         adopted: false,
-        email:user?.email
+        email
       };
   
       if (imgbbData.data?.url) {
@@ -97,7 +98,6 @@ const AddAPet = () => {
           });
       }
     } catch (error) {
-      // Handle fetch errors or JSON parsing errors
       setSubmitLoader(false);
       toast.error(`Error uploading image: ${error.message}`);
     }
@@ -105,7 +105,7 @@ const AddAPet = () => {
 
   return (
     <div>
-      <h1 className="text-center text-3xl font-semibold font-baloo mt-5 ">
+      <h1 className="text-center text-3xl font-semibold font-baloo mt-5 uppercase ">
         Add A Pet For Adoption
       </h1>
       <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>
