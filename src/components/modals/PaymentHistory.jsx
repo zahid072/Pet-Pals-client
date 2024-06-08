@@ -44,6 +44,15 @@ const PaymentHistory = ({ campaignId, setPaymentHistoryModal }) => {
                     color="blue-gray"
                     className="font-normal leading-none opacity-70"
                   >
+                  
+                  </Typography>
+                </th>
+                <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal leading-none opacity-70"
+                  >
                     User Email
                   </Typography>
                 </th>
@@ -66,21 +75,22 @@ const PaymentHistory = ({ campaignId, setPaymentHistoryModal }) => {
                   </Typography>
                 </th>
 
-                <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
-                  >
-                    Action
-                  </Typography>
-                </th>
+               
               </tr>
             </thead>
             <tbody>
               {paymentHistory &&
                 paymentHistory.map((history, index) => (
                   <tr key={index} className={"bg-blue-gray-50/50"}>
+                    <td className="p-4">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {index+1}
+                      </Typography>
+                    </td>
                     <td className="p-4">
                       <Typography
                         variant="small"
@@ -110,25 +120,7 @@ const PaymentHistory = ({ campaignId, setPaymentHistoryModal }) => {
                         </Tooltip>
                       </Typography>
                     </td>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium flex items-center gap-3"
-                      >
-                        <Tooltip content="Delete">
-                          <button
-                            onClick={() => {
-                              handleDelete(history?._id);
-                            }}
-                            className="px-4 py-2 rounded bg-green-400 text-white"
-                          >
-                            {" "}
-                            <FaTrashAlt />
-                          </button>
-                        </Tooltip>
-                      </Typography>
-                    </td>
+                    
                   </tr>
                 ))}
             </tbody>

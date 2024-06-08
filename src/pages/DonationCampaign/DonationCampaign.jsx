@@ -21,7 +21,9 @@ const DonationCampaign = () => {
     useCampaignData();
   const newDate = new Date().toISOString();
   useEffect(() => {
-    const filtered = allCampaign?.filter((cam) => newDate < cam?.lastDate);
+    const filtered = allCampaign?.filter(
+      (cam) => newDate < cam?.lastDate && cam?.maxAmount < cam?.userCanDonate
+    );
     setCampaignData(filtered);
   }, [allCampaign]);
   return (

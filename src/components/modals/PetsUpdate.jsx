@@ -44,7 +44,7 @@ const PetsUpdate = ({ refetch, selectedPet, setPetUpdateModal }) => {
   const [editorDescription, setEditorDescription] = useState(htmlContent);
   // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-  console.log(editorDescription);
+  // console.log(editorDescription);
   const defaultValues = {
     name: selectedPet?.petName,
     age: selectedPet?.petAge,

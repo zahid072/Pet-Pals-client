@@ -7,17 +7,18 @@ import { Button, Input } from "@material-tailwind/react";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PAYMENT_KEY);
 
-const MakeDonation = ({ campaign, setDonateModal }) => {
+const MakeDonation = ({setRefetch, campaign, setDonateModal }) => {
   const [submitLoader, setSubmitLoader] = useState(false);
   const [defaultValue, setDefaultValue] = useState("");
   const [Toggle, setToggle] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const [err, setErr] = useState("");
+  const amountLeft =campaign?.userCanDonate - campaign?.maxAmount
 
   const handleGetAmount = () => {
     setErr("");
-    if (defaultValue > campaign?.userCanDonate) {
-      setErr(`Sorry, you can't donate more than $${campaign?.userCanDonate}`);
+    if (defaultValue > amountLeft) {
+      setErr(`Sorry, you can't donate more than $${amountLeft}`);
       setTotalAmount(0);
     } else if (defaultValue <= 0) {
       setErr("Enter a valid amount.");
@@ -58,7 +59,7 @@ const MakeDonation = ({ campaign, setDonateModal }) => {
               value={defaultValue}
               type="number"
               variant="standard"
-              label={`Enter your amount max $${campaign?.userCanDonate}`}
+              label={`Enter your amount max $${amountLeft}`}
               placeholder="Enter Your Amount"
             />
             <div className="flex justify-center w-full">
@@ -70,6 +71,7 @@ const MakeDonation = ({ campaign, setDonateModal }) => {
           <div className={Toggle ? "" : "hidden"}>
             <Elements stripe={stripePromise}>
               <CheckoutForm
+              setRefetch={setRefetch}
                 campaign={campaign}
                 setDonateModal={setDonateModal}
                 setSubmitLoader={setSubmitLoader}

@@ -10,6 +10,7 @@ import { Button } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 
 const CheckoutForm = ({
+  setRefetch,
   campaign,
   totalAmount,
   setDonateModal,
@@ -109,7 +110,7 @@ const CheckoutForm = ({
             .patch(`/donationCampaign/donate/${campaign?._id}`, {
               maxAmount: campaign?.maxAmount+amount,
             })
-            .then((res) => {});
+            .then((res) => {setRefetch()});
         
        
         setError("");

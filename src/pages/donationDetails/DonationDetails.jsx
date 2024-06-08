@@ -7,6 +7,7 @@ import MakeDonation from "../../components/modals/MakeDonation";
 
 const DonationDetails = () => {
   const [donateModal, setDonateModal] = useState(false);
+  const [refetch, setRefetch] = useState(false);
   const { id } = useParams();
   const [campaign, setCampaign] = useState({});
   const axiosSecure = useAxiosSecure();
@@ -14,10 +15,11 @@ const DonationDetails = () => {
   useEffect(() => {
     axiosSecure.get(`/donationCampaign/${id}`).then((res) => {
       setCampaign(res.data);
+      setRefetch(false)
     });
-  }, [id]);
+  }, [id, refetch]);
   const handleDonate = () => {
-    setDonateModal(!donateModal)
+    setDonateModal(!donateModal);
   };
   return (
     <div className="p-5 mx-auto sm:p-10 md:p-16 bg-gray-100 text-gray-100">
@@ -65,6 +67,10 @@ const DonationDetails = () => {
         </div>
         <div className="w-full flex justify-center mt-5">
           <Button
+            disabled={
+              campaign?.pauseStatus ||
+              campaign?.maxAmount >= campaign?.userCanDonate
+            }
             onClick={() => {
               handleDonate();
             }}
@@ -72,10 +78,17 @@ const DonationDetails = () => {
           >
             Donate
           </Button>
+         
         </div>
+        {campaign?.pauseStatus ||
+          campaign?.maxAmount >= campaign?.userCanDonate ? (
+            <p className="text-red-500 mt-4 text-center">This campaign is paused.</p>
+          ) : (
+            ""
+          )}
       </div>
       {donateModal && (
-        <MakeDonation campaign={campaign}  setDonateModal={setDonateModal} />
+        <MakeDonation setRefetch={setRefetch} campaign={campaign} setDonateModal={setDonateModal} />
       )}
     </div>
   );

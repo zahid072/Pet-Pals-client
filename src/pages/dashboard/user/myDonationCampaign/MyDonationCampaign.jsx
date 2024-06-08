@@ -5,10 +5,14 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { FaPen } from "react-icons/fa";
 import PaymentHistory from "../../../../components/modals/PaymentHistory";
+import RadialProgressBar from "../../../../components/RadialProgressBar/RadialProgressBar";
+import UpdateCampaign from "../../../../components/modals/UpdateCampaign";
 
 const MyDonationCampaign = () => {
   const [requestData, setRequestData] = useState([]);
   const [campaignId, setCampaignId] = useState("");
+  const [updateCampaign, setUpdateCampaign] = useState({});
+  const [updateCampaignModal, setUpdateCampaignModal] = useState(false);
   const [paymentHistoryModal, setPaymentHistoryModal] = useState(false);
   const [refetch, setRefetch] = useState(false);
   const { user } = useAuth();
@@ -24,44 +28,62 @@ const MyDonationCampaign = () => {
     });
   }, [user, refetch]);
   // ::::::::::::::::::::::::::::::::::::::::::::
-  const handleUpdate = (petId, id) => {
-    axiosSecure
-      .patch(`/pets/status/${petId}`, { adopted: true })
-      .then((res) => {
-        if (res.data.modifiedCount) {
-          axiosSecure.patch(`//${id}`, { status: "accepted" }).then((res) => {
+  const handleUpdate = (campaign) => {
+    setUpdateCampaign(campaign);
+    setUpdateCampaignModal(!updateCampaignModal);
+  };
+
+  // --------------------------------------
+  const handlePause = (campaign) => {
+
+    if(campaign?.pauseStatus){
+      Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonText: "No",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure.patch(`/donationCampaign/pause/${campaign?._id}`, {pauseStatus: false}).then((res) => {
             if (res.data.modifiedCount) {
               setRefetch(true);
+              Swal.fire({
+                text: "Success.",
+                icon: "success",
+              });
             }
           });
         }
       });
-  };
+    }else{
+      Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonText: "No",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure.patch(`/donationCampaign/pause/${campaign?._id}`, {pauseStatus: true}).then((res) => {
+            if (res.data.modifiedCount) {
+              setRefetch(true);
+              Swal.fire({
+                text: "Success.",
+                icon: "success",
+              });
+            }
+          });
+        }
+      });
 
-  // --------------------------------------
-  const handlePause = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      icon: "warning",
-      showCancelButton: true,
-      cancelButtonText: "No",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axiosSecure.patch(`//${id}`).then((res) => {
-          if (res.data.deletedCount) {
-            setRefetch(true);
-            Swal.fire({
-              title: "Canceled!",
-              text: "Pet has been canceled.",
-              icon: "success",
-            });
-          }
-        });
-      }
-    });
+    }
+
+   
   };
 
   return (
@@ -101,7 +123,7 @@ const MyDonationCampaign = () => {
                         color="blue-gray"
                         className="font-normal leading-none opacity-70"
                       >
-                        Progress
+                        Completed
                       </Typography>
                     </th>
                     <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
@@ -152,7 +174,11 @@ const MyDonationCampaign = () => {
                             color="blue-gray"
                             className="font-normal opacity-70"
                           >
-                            <button>progress</button>
+                            <RadialProgressBar
+                              size={12}
+                              progress={campaign?.maxAmount}
+                              max={campaign?.userCanDonate}
+                            />
                           </Typography>
                         </td>
                         <td className="p-4">
@@ -164,7 +190,7 @@ const MyDonationCampaign = () => {
                             <button
                               onClick={() => {
                                 setPaymentHistoryModal(!paymentHistoryModal);
-                                setCampaignId(campaign?._id)
+                                setCampaignId(campaign?._id);
                               }}
                               className="px-2 py-1 rounded bg-blue-gray-100 hover:bg-blue-gray-200"
                             >
@@ -181,7 +207,7 @@ const MyDonationCampaign = () => {
                             <Tooltip content="Update">
                               <button
                                 onClick={() => {
-                                  handleUpdate(campaign?._id);
+                                  handleUpdate(campaign);
                                 }}
                                 className="px-4 py-2 rounded bg-green-400 text-white"
                               >
@@ -193,7 +219,7 @@ const MyDonationCampaign = () => {
                             {campaign?.pauseStatus ? (
                               <button
                                 onClick={() => {
-                                  handlePause(campaign?._id);
+                                  handlePause(campaign);
                                 }}
                                 className="px-2 mr-2 py-1 rounded bg-deep-orange-400 text-white"
                               >
@@ -202,7 +228,7 @@ const MyDonationCampaign = () => {
                             ) : (
                               <button
                                 onClick={() => {
-                                  handlePause(campaign?._id);
+                                  handlePause(campaign);
                                 }}
                                 className="px-2 mr-2 py-1 rounded bg-deep-orange-400 text-white"
                               >
@@ -219,6 +245,13 @@ const MyDonationCampaign = () => {
           </div>
         </div>
       </div>
+      {updateCampaignModal && (
+        <UpdateCampaign
+        setRefetch={setRefetch}
+          updateCampaign={updateCampaign}
+          setUpdateCampaignModal={setUpdateCampaignModal}
+        />
+      )}
       {paymentHistoryModal && (
         <PaymentHistory
           campaignId={campaignId}
