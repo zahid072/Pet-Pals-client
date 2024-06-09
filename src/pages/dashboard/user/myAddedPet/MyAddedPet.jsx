@@ -4,12 +4,12 @@ import useAuth from "../../../../Hooks/useAuth";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa6";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import PetsUpdate from "../../../../components/modals/PetsUpdate";
 import Swal from "sweetalert2";
-import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
+import { Helmet } from "react-helmet";
+
 
 const MyAddedPet = () => {
   const { user } = useAuth();
@@ -78,6 +78,11 @@ const MyAddedPet = () => {
   };
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>My Added Pets|| Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo uppercase">My Pets</h1>
       <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>
       <div className="bg-white p-6 rounded-lg lg:w-4/6 mx-auto md:w-4/5 w-full z-10 shadow">

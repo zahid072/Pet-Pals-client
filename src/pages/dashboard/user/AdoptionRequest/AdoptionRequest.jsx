@@ -3,6 +3,8 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useAuth from "../../../../Hooks/useAuth";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
+
 
 const AdoptionRequest = () => {
   const [requestData, setRequestData] = useState([]);
@@ -79,6 +81,11 @@ const AdoptionRequest = () => {
   };
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Adoption Request || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo uppercase">
         All Adoption Request
       </h1>

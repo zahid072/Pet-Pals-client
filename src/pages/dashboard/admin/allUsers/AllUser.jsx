@@ -5,6 +5,8 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
 import useAdmin from "../../../../Hooks/useAdmin";
+import { Helmet } from "react-helmet";
+
 
 const AllUser = () => {
   const { userData, refetch } = useUsersData();
@@ -71,6 +73,11 @@ const AllUser = () => {
   };
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>All Users || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo uppercase">
         All Users
       </h1>

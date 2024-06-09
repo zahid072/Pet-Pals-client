@@ -8,6 +8,8 @@ import { LuDog } from "react-icons/lu";
 import { IoLogoOctocat } from "react-icons/io5";
 import { MdPets } from "react-icons/md";
 import RecommendedCard from "./RacommendedCard";
+import { Helmet } from "react-helmet";
+
 
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -61,6 +63,12 @@ const DonationDetails = () => {
     setDonateModal(!donateModal);
   };
   return (
+    <>
+    <Helmet>
+          <meta charSet="utf-8" />
+          <title>Donation Details || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
     <div className="p-5 mx-auto sm:p-10 md:p-16 bg-gray-100 text-gray-100">
       <div className="flex flex-col max-w-5xl mx-auto overflow-hidden rounded">
         <div className="w-full bg-gray-500 dark:bg-gray-500">
@@ -159,6 +167,7 @@ const DonationDetails = () => {
         />
       )}
     </div>
+    </>
   );
 };
 

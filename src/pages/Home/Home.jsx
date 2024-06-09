@@ -1,15 +1,22 @@
 import React from "react";
-import Banner from "../../components/banner/Banner";
 import PetCategory from "../../components/petCategory/PetCategory";
 import CallToAction from "../../components/callToAction/CallToAction";
 import HomeAbout from "../../components/homeAbout/HomeAbout";
 import SectionTop from "../../components/sectionTop/SectionTop";
+import HomeSlider from "../../components/petSlider/HomeSlider";
+import { Helmet } from "react-helmet";
+
 
 const Home = () => {
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Home || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <div>
-        <Banner />
+        <HomeSlider />
       </div>
       <div className="md:py-14 py-7 max-w-7xl lg:mx-auto mx-2">
         <CallToAction />
@@ -17,6 +24,7 @@ const Home = () => {
       <div className="md:py-12 py-7 max-w-7xl lg:mx-auto mx-2">
         <PetCategory />
       </div>
+      <HomeAbout/>
       <div className="container mx-auto p-6">
         {/* Featured Pets Section */}
         <section className="mb-12">

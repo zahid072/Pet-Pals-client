@@ -9,6 +9,8 @@ import DefaultCard from "../../components/defaultCard/DefaultCard";
 import CardSkeleton from "../../components/skeletonLoader/CardSkeleton";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { Helmet } from "react-helmet";
+
 // ____________select options______________________
 const options = [
   { value: "", label: "Select Pet Category" },
@@ -73,6 +75,11 @@ const PetListing = () => {
 
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Pet Listing || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <div
         style={{
           backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("https://png.pngtree.com/background/20230522/original/pngtree-puppy-and-a-kitten-next-to-each-other-picture-image_2696745.jpg")`,

@@ -7,6 +7,8 @@ import RadialProgressBar from "../../../../components/RadialProgressBar/RadialPr
 import useCampaignData from "../../../../Hooks/useCampaignData";
 import InfiniteScroll from "react-infinite-scroll-component";
 import UpdateCampaign from "./UpdateCampaign";
+import { Helmet } from "react-helmet";
+
 
 const AllDonation = () => {
   const [updateCampaign, setUpdateCampaign] = useState({});
@@ -104,6 +106,11 @@ const AllDonation = () => {
   };
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>All Donation || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo uppercase">
         All Donation Campaigns
       </h1>

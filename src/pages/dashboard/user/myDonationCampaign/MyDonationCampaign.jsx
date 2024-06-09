@@ -7,6 +7,7 @@ import { FaPen } from "react-icons/fa";
 import PaymentHistory from "../../../../components/modals/PaymentHistory";
 import RadialProgressBar from "../../../../components/RadialProgressBar/RadialProgressBar";
 import UpdateCampaign from "../../../../components/modals/UpdateCampaign";
+import { Helmet } from "react-helmet";
 
 const MyDonationCampaign = () => {
   const [requestData, setRequestData] = useState([]);
@@ -88,6 +89,11 @@ const MyDonationCampaign = () => {
 
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>My Donation Campaign || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo uppercase">
         My Donation Campaign
       </h1>

@@ -4,6 +4,8 @@ import Select from "react-select";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import useAuth from "../../../../Hooks/useAuth";
+import { Helmet } from "react-helmet";
+
 
 const options = [
   { value: 2, label: "2 Day" },
@@ -105,6 +107,11 @@ const CreateDonationCampaign = () => {
   };
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Create Campaign || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo mt-5 uppercase ">
         Create A Donation Campaign
       </h1>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DefaultCard from "../../components/defaultCard/DefaultCard";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { Helmet } from "react-helmet";
+
 
 const BrowseCategory = () => {
   const [categoryData, setCategoryData] = useState([]);
@@ -15,6 +17,11 @@ const BrowseCategory = () => {
   }, [petName]);
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Category || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <div
         style={{
           backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("https://stjohnsgardencentre.co.uk/wp-content/uploads/2016/05/cat-rabbit-hamster-dog.jpg")`,

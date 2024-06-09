@@ -5,6 +5,8 @@ import Tiptap from "../../../../components/tipTap/Tiptap";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import useAuth from "../../../../Hooks/useAuth";
+import { Helmet } from "react-helmet";
+
 
 const options = [
   { value: "Cat", label: "Cat" },
@@ -105,6 +107,11 @@ const AddAPet = () => {
 
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Add A Pet|| Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo mt-5 uppercase ">
         Add A Pet For Adoption
       </h1>

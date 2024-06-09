@@ -9,6 +9,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import PetAdoption from "../modals/PetAdoption";
 import { FaLocationDot, FaRegCalendarCheck } from "react-icons/fa6";
 import NeuralNoiseBackground from "../NeuralNoiseBackground/NeuralNoiseBackground";
+import { Helmet } from "react-helmet";
 
 const PetDetails = () => {
   const [petAdoptionModal, setPetAdoptionModal] = useState(false);
@@ -36,6 +37,12 @@ const PetDetails = () => {
   const htmlContent = convertJsonToHtml();
   // --------------------------------------------
   return (
+    <>
+    <Helmet>
+          <meta charSet="utf-8" />
+          <title>Pet Details || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
     <div className="bg-blue-gray-100 h-full pb-10">
       <div className="bg-gradient-to-r to-[#42446B] from-[#974063] w-full h-28 relative overflow-hidden cursor-pointer"><NeuralNoiseBackground/></div>
       <div>
@@ -106,6 +113,7 @@ const PetDetails = () => {
         <PetAdoption pet={pet} setPetAdoptionModal={setPetAdoptionModal} />
       )}
     </div>
+    </>
   );
 };
 

@@ -12,6 +12,8 @@ import TimeStamp from "../../components/timeStamp/TimeStamp";
 import useCampaignData from "../../Hooks/useCampaignData";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CardSkeleton from "../../components/skeletonLoader/CardSkeleton";
+import { Helmet } from "react-helmet";
+
 
 const DonationCampaign = () => {
   const [campaignData, setCampaignData] = useState([]);
@@ -28,6 +30,11 @@ const DonationCampaign = () => {
   }, [campaignIsLoading, hasNextPage, fetchNextPage]);
   return (
     <div className="pb-10">
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Donation Campaign || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <div className="h-[300px] overflow-hidden w-full cursor-pointer relative bg-blue-gray-200 mb-5">
         <ParticleComponent />
         <h1 className="text-3xl font-semibold font-baloo absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white">

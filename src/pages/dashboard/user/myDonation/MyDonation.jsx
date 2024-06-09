@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useAuth from "../../../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
+
 
 const MyDonation = () => {
   const [paymentHistory, setPaymentHistory] = useState([]);
@@ -52,6 +54,11 @@ const MyDonation = () => {
   };
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>My Donation || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo uppercase">
         My Donations
       </h1>

@@ -11,6 +11,8 @@ import PetsUpdate from "../../../../components/modals/PetsUpdate";
 import Swal from "sweetalert2";
 import useAllPetsData from "../../../../Hooks/useAllPetsData";
 import useAdmin from "../../../../Hooks/useAdmin";
+import { Helmet } from "react-helmet";
+
 
 const AllPets = () => {
   const { admin } = useAdmin();
@@ -73,6 +75,11 @@ const AllPets = () => {
   };
   return (
     <div>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>All Pets || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <h1 className="text-center text-3xl font-semibold font-baloo uppercase">All Pets</h1>
       <div className="my-5 h-[2px] w-full bg-blue-gray-50"></div>
       <div

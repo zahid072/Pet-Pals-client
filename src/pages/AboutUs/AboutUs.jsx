@@ -1,7 +1,15 @@
 import React from "react";
+import HomeSlider from "../../components/petSlider/HomeSlider";
+import { Helmet } from "react-helmet";
 
 const AboutUs = () => {
   return (
+    <>
+    <Helmet>
+          <meta charSet="utf-8" />
+          <title>About || Pet Pals</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
     <div className="bg-gray-100 py-12">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold mb-8 text-center">About Pet Pals</h1>
@@ -74,6 +82,7 @@ const AboutUs = () => {
         </section>
       </div>
     </div>
+    </>
   );
 };
 
