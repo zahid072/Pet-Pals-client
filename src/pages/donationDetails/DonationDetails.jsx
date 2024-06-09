@@ -30,7 +30,7 @@ const DonationDetails = () => {
       );
       setCampaignData(filtered);
     });
-  }, []);
+  }, [id]);
 
 
   // get random index for slice data

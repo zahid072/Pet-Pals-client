@@ -23,11 +23,13 @@ import AddAPet from "../pages/dashboard/user/addAPet/AddAPet";
 import AdminRouter from "./AdminRouter";
 import PetDetails from "../components/petDetails/PetDetails";
 import DonationDetails from "../pages/donationDetails/DonationDetails";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -82,6 +84,7 @@ const router = createBrowserRouter([
         <DashboardRoot />
       </PrivateRouter>
     ),
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/dashboard",

@@ -12,7 +12,7 @@ const getPets = async ({ pageParam = 1 }) => {
   return { ...res?.data, prevOffset: pageParam };
 };
   const { data, fetchNextPage, hasNextPage, refetch, isLoading:allPetsIsLoading } = useInfiniteQuery({
-    queryKey: ["pets"],
+    queryKey: ["allpets"],
     queryFn: getPets,
     getNextPageParam: (lastPage) => {
       const nextOffset = lastPage.prevOffset + 1;

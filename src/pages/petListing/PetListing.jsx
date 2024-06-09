@@ -6,8 +6,9 @@ import useAuth from "../../Hooks/useAuth";
 import Select from "react-select";
 import InfiniteScroll from "react-infinite-scroll-component";
 import DefaultCard from "../../components/defaultCard/DefaultCard";
-import useAllPetsData from "../../Hooks/useAllPetsData";
 import CardSkeleton from "../../components/skeletonLoader/CardSkeleton";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 // ____________select options______________________
 const options = [
   { value: "", label: "Select Pet Category" },
@@ -23,18 +24,30 @@ const PetListing = () => {
   const [petCategory, setPetCategory] = useState(null);
   const [isDisplay, setIsDisplay] = useState(true);
   const [defaultValue, setDefaultValue] = useState("");
+  const axiosPublic = useAxiosPublic()
   const { setSearchTerm } = useAuth();
-  const [filteredPets, setFilteredPets] = useState([]);
-  const [allPets, fetchNextPage, hasNextPage, refetch, allPetsIsLoading] =
-    useAllPetsData();
-
-  useEffect(() => {
-    const filterPets = allPets?.filter((pet) => pet.adopted === false);
-    if (filterPets) {
-      setFilteredPets(filterPets);
-    }
-  }, [hasNextPage, allPetsIsLoading]);
-
+  
+  //  ::::::::::::::::::::::::::::::::::::::::::::::
+  const getPets = async ({ pageParam = 1 }) => {
+    const res = await axiosPublic.get(
+      `/pets/listing?page=${pageParam}&limit=10`
+    );
+    return { ...res?.data, prevOffset: pageParam };
+  };
+    const { data, fetchNextPage, hasNextPage, refetch, isLoading:allPetsIsLoading } = useInfiniteQuery({
+      queryKey: ["allListingPets"],
+      queryFn: getPets,
+      getNextPageParam: (lastPage) => {
+        const nextOffset = lastPage.prevOffset + 1;
+        if (nextOffset > Math.ceil(lastPage.petsCount / 10)) {
+          return undefined;
+        }
+        return nextOffset;
+      },
+    });
+    const allPets = data?.pages.reduce((acc, page) => {
+      return [...acc, ...page.pets];
+    }, []);
   // :::::::::::::::::::::::::::::::::::::::::::::::::::
   const handleChange = (selectedValue) => {
     setIsDisplay(false);
@@ -106,7 +119,7 @@ const PetListing = () => {
         {isDisplay ? (
           <>
             <InfiniteScroll
-              dataLength={filteredPets ? filteredPets.length : 0}
+              dataLength={allPets ? allPets?.length : 0}
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
               loader={<div class="loader-infinite"></div>}
@@ -115,8 +128,8 @@ const PetListing = () => {
                 <CardSkeleton />
               ) : (
                 <div className="grid gap-7 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center max-w-7xl lg:mx-auto mx-2">
-                  {filteredPets &&
-                    filteredPets.map((pet, index) => (
+                  {allPets &&
+                    allPets.map((pet, index) => (
                       <div key={index} className="w-full">
                         <DefaultCard pet={pet} />
                       </div>
