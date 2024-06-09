@@ -33,7 +33,7 @@ const PetListing = () => {
     if (filterPets) {
       setFilteredPets(filterPets);
     }
-  }, [allPets]);
+  }, [hasNextPage, allPetsIsLoading]);
 
   // :::::::::::::::::::::::::::::::::::::::::::::::::::
   const handleChange = (selectedValue) => {

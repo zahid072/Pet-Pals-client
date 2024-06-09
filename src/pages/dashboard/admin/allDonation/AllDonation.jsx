@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { FaPen, FaTrashAlt } from "react-icons/fa";
 import RadialProgressBar from "../../../../components/RadialProgressBar/RadialProgressBar";
-import UpdateCampaign from "../../../../components/modals/UpdateCampaign";
 import useCampaignData from "../../../../Hooks/useCampaignData";
 import InfiniteScroll from "react-infinite-scroll-component";
+import UpdateCampaign from "./UpdateCampaign";
 
 const AllDonation = () => {
   const [updateCampaign, setUpdateCampaign] = useState({});

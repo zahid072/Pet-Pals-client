@@ -5,8 +5,7 @@ import CallToAction from "../../components/callToAction/CallToAction";
 import HomeAbout from "../../components/homeAbout/HomeAbout";
 
 const Home = () => {
-  const token = localStorage.getItem("access-token")
-  console.log(token)
+ 
   return (
     <div>
       <div>

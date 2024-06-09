@@ -8,9 +8,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
-import DaysLeft from "../../components/timeStamp/DaysLeft";
 import useCampaignData from "../../Hooks/useCampaignData";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CardSkeleton from "../../components/skeletonLoader/CardSkeleton";
@@ -21,11 +19,13 @@ const DonationCampaign = () => {
     useCampaignData();
   const newDate = new Date().toISOString();
   useEffect(() => {
-    const filtered = allCampaign?.filter(
-      (cam) => newDate < cam?.lastDate && cam?.maxAmount < cam?.userCanDonate
-    );
-    setCampaignData(filtered);
-  }, [allCampaign]);
+    if (allCampaign) {
+      const filtered = allCampaign?.filter(
+        (cam) => newDate < cam?.lastDate && cam?.maxAmount < cam?.userCanDonate
+      );
+      setCampaignData(filtered);
+    }
+  }, [campaignIsLoading, hasNextPage, fetchNextPage]);
   return (
     <div className="pb-10">
       <div className="h-[300px] overflow-hidden w-full cursor-pointer relative bg-blue-gray-200 mb-5">

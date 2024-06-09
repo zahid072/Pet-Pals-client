@@ -4,18 +4,57 @@ import { useParams } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import DaysLeft from "../../components/timeStamp/DaysLeft";
 import MakeDonation from "../../components/modals/MakeDonation";
+import { LuDog } from "react-icons/lu";
+import { IoLogoOctocat } from "react-icons/io5";
+import { MdPets } from "react-icons/md";
+import RecommendedCard from "./RacommendedCard";
+
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const DonationDetails = () => {
+  const [randomNumbers, setRandomNumbers] = useState([]);
   const [donateModal, setDonateModal] = useState(false);
   const [refetch, setRefetch] = useState(false);
   const { id } = useParams();
   const [campaign, setCampaign] = useState({});
   const axiosSecure = useAxiosSecure();
+  const [campaignData, setCampaignData] = useState([]);
+  const newDate = new Date().toISOString();
+  
+  useEffect(() => {
+    axiosSecure.get(`/donate/random?id=${id}`).then((res) => {
+      const filtered = res.data?.filter(
+        (cam) => newDate < cam?.lastDate && cam?.maxAmount < cam?.userCanDonate
+      );
+      setCampaignData(filtered);
+    });
+  }, []);
+
+
+  // get random index for slice data
+  useEffect(() => {
+   if(campaignData.length>0){
+    let numbers = [];
+    const firstNumber = getRandomNumber(0, campaignData?.length);
+    if(campaignData?.length < 4){
+      numbers = [{firstNumber:0}, {secondNumber:campaignData?.length}]
+    }else if(firstNumber<=campaignData?.length-3){
+      const secondNumber = firstNumber + 3;
+      numbers = [{firstNumber}, {secondNumber}]
+    } else if(firstNumber>campaignData?.length - 3){
+      numbers = [{firstNumber:firstNumber -3}, {secondNumber:firstNumber}]
+    }
+    setRandomNumbers(numbers);
+   }
+}, [campaignData?.length>0]);
+
   // get the matched pets
   useEffect(() => {
     axiosSecure.get(`/donationCampaign/${id}`).then((res) => {
       setCampaign(res.data);
-      setRefetch(false)
+      setRefetch(false);
     });
   }, [id, refetch]);
   const handleDonate = () => {
@@ -64,31 +103,60 @@ const DonationDetails = () => {
               {campaign?.longDescription}
             </p>
           </div>
-        </div>
-        <div className="w-full flex justify-center mt-5">
-          <Button
-            disabled={
-              campaign?.pauseStatus ||
-              campaign?.maxAmount >= campaign?.userCanDonate
-            }
-            onClick={() => {
-              handleDonate();
-            }}
-            className="bg-[#FF5722] border border-deep-orange-500 hover:border-black hover:shadow"
-          >
-            Donate
-          </Button>
-         
-        </div>
-        {campaign?.pauseStatus ||
+          <div className="w-full flex justify-center mt-5">
+            <Button
+              disabled={
+                campaign?.pauseStatus ||
+                campaign?.maxAmount >= campaign?.userCanDonate
+              }
+              onClick={() => {
+                handleDonate();
+              }}
+              className="bg-[#FF5722] border border-deep-orange-500 hover:border-white hover:shadow"
+            >
+              Donate
+            </Button>
+          </div>
+          {campaign?.pauseStatus ||
           campaign?.maxAmount >= campaign?.userCanDonate ? (
-            <p className="text-red-500 mt-4 text-center">This campaign is paused.</p>
+            <p className="text-red-500 mt-4 text-center">
+              This campaign is paused.
+            </p>
           ) : (
             ""
           )}
+        </div>
+        <div>
+          <div className="flex flex-col justify-center items-center mt-6">
+            <p className="flex items-center gap-2 text-deep-orange-500">
+              {" "}
+              <LuDog />
+              <MdPets className=" text-3xl" />
+              <IoLogoOctocat />
+            </p>
+            <p className="font-gilda font-semibold text-black">
+              We really love pets
+            </p>
+            <h3 className="text-3xl font-semibold font-baloo text-center text-black">
+              Recommended Donation
+            </h3>
+          </div>
+          <div className=" flex flex-col justify-center items-center gap-5 mt-5">
+            {campaignData &&
+              campaignData.slice(randomNumbers[0]?.firstNumber, randomNumbers[1]?.secondNumber).map((campaign, index) => (
+                <div key={index} className="text-black">
+                  <RecommendedCard campaign={campaign}/>
+                </div>
+              ))}
+          </div>
+        </div>
       </div>
       {donateModal && (
-        <MakeDonation setRefetch={setRefetch} campaign={campaign} setDonateModal={setDonateModal} />
+        <MakeDonation
+          setRefetch={setRefetch}
+          campaign={campaign}
+          setDonateModal={setDonateModal}
+        />
       )}
     </div>
   );

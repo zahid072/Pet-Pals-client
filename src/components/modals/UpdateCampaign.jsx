@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const UpdateCampaign = ({
-  refetch,
+  setRefetch,
   updateCampaign,
   setUpdateCampaignModal,
 }) => {
@@ -75,7 +75,7 @@ const UpdateCampaign = ({
         if (res.data.modifiedCount) {
           setSubmitLoader(false);
           setUpdateCampaignModal(false);
-          refetch();
+          setRefetch(false);
           setTempPhoto("");
           toast.success("Campaign Updated Successfully.");
         }
