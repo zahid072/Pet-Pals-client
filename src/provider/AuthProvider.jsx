@@ -6,13 +6,11 @@ import {
   signOut,
   updateProfile,
   GoogleAuthProvider,
+  GithubAuthProvider,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.config";
-import { GithubAuthProvider } from "firebase/auth/web-extension";
-import axios from "axios";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
-
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
@@ -84,15 +82,15 @@ const AuthProvider = ({ children }) => {
 
       if (currentUser) {
         const email = currentUser?.email
-        ? currentUser?.email
-        : currentUser?.reloadUserInfo?.providerUserInfo[0].email;
+          ? currentUser?.email
+          : currentUser?.reloadUserInfo?.providerUserInfo[0].email;
         axiosPublic.post("/jwt", { email }).then((res) => {
           if (res.data.token) {
             localStorage.setItem("access-token", res.data.token);
           }
         });
       } else {
-        localStorage.removeItem('access-token')
+        localStorage.removeItem("access-token");
       }
     });
     return () => {

@@ -12,7 +12,7 @@ const SignIn = () => {
   const [error, setError] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [submitLoader, setSubmitLoader] = useState(false);
-  const { signInUsers, signInWithGoogle } = useAuth();
+  const { signInUsers, signInWithGoogle, signInWithGitHub } = useAuth();
   const axiosPublic = useAxiosPublic()
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,7 +63,18 @@ const SignIn = () => {
         navigate(location?.state ? location.state : "/");});
     });
   };
-  const handleGitHubSignIn = () => {};
+  const handleGitHubSignIn = () => {
+    signInWithGitHub().then((res) => {
+      const newUser = {
+        name: res.user?.displayName,
+        email: res.user?.reloadUserInfo?.providerUserInfo[0].email,
+        role: "user",
+      };
+      toast.success("Login successful.");
+      axiosPublic.post("/users", newUser).then((res) => { 
+        navigate(location?.state ? location.state : "/");});
+    });
+  };
   return (
     <div className=" h-screen bg-blue-gray-100">
       <div className="w-full flex justify-center items-center ">
