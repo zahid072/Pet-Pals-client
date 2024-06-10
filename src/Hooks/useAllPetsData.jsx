@@ -1,12 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import useAxiosPublic from "./useAxiosPublic";
+import useAxiosSecure from "./useAxiosSecure";
 
 
 const useAllPetsData = () => {
-  const axiosPublic = useAxiosPublic()
+  const axiosSecure = useAxiosSecure()
   
 const getPets = async ({ pageParam = 1 }) => {
-  const res = await axiosPublic.get(
+  const res = await axiosSecure.get(
     `/pets?page=${pageParam}&limit=10`
   );
   return { ...res?.data, prevOffset: pageParam };

@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap");
+
+.container3 {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  align-items: center;
+  background: #333;
+  overflow: hidden;
+}
+
+#text {
+  color: #fff;
+  font-weight: 100;
+  cursor: default;
+  position: relative;
+}
+
+#light {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #fff, 0 0 50px #fff, 0 0 100px #fff, 0 0 200px #fff,
+              0 0 300px #fff;
+}

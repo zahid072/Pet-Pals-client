@@ -361,15 +361,15 @@
 }
 .example-slider .fnc-slide-1 .fnc-slide__inner,
 .example-slider .fnc-slide-1 .fnc-slide__mask-inner {
-  background-image: url("https://static.vecteezy.com/system/resources/thumbnails/008/951/892/small_2x/cute-puppy-pomeranian-mixed-breed-pekingese-dog-run-on-the-grass-with-happiness-photo.jpg");
+  background-image: url("https://i.ibb.co/5RNWz13/dog.jpg");
 }
 .example-slider .fnc-slide-2 .fnc-slide__inner,
 .example-slider .fnc-slide-2 .fnc-slide__mask-inner {
-  background-image: url("https://i.pinimg.com/736x/cd/13/c8/cd13c8ed6e74a90cf9deba9b09d63724.jpg");
+  background-image: url("https://i.ibb.co/8NLG0Vq/cat.png");
 }
 .example-slider .fnc-slide-3 .fnc-slide__inner,
 .example-slider .fnc-slide-3 .fnc-slide__mask-inner {
-  background-image: url("https://img.freepik.com/premium-photo/graceful-rabbit-galloping-vast-landscape_899449-16865.jpg");
+  background-image: url("https://i.ibb.co/47xtKDK/rabbit.jpg");
 }
 .example-slider .fnc-slide-3 .fnc-slide__inner:before {
   content: "";
@@ -382,7 +382,7 @@
 }
 .example-slider .fnc-slide-4 .fnc-slide__inner,
 .example-slider .fnc-slide-4 .fnc-slide__mask-inner {
-  background-image: url("https://salisburylandscaping.ca/wp-content/uploads/2023/01/Salisbury-Landscaping-Alberta-Homes-for-Birds-That-Blend-in-with-Your-Landscape-bird-in-dogwood-tree.jpg");
+  background-image: url("https://i.ibb.co/42Lgnbv/bird.jpg");
 }
 .example-slider .fnc-slide-4 .fnc-slide__inner:before {
   content: "";
